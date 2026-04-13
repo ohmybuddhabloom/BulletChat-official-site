@@ -61,7 +61,12 @@
     "copyXPercent": 11.25,
     "copyYPercent": -2.267,
     "profiles": {
-      "mobile": {}
+      "mobile": {
+        "leftWidth": 100,
+        "leftPadding": 0,
+        "copyXPercent": 0,
+        "copyYPercent": -8
+      }
     }
   },
   "interlude": {
@@ -75,7 +80,12 @@
     "chatXPercent": -1,
     "chatYPercent": 4.4,
     "profiles": {
-      "mobile": {}
+      "mobile": {
+        "textXPercent": 0,
+        "textYPercent": -4,
+        "chatXPercent": 0,
+        "chatYPercent": 0
+      }
     }
   },
   "buddha": {
@@ -160,7 +170,12 @@
     "imageXPercent": -15,
     "imageYPercent": 0.8,
     "profiles": {
-      "mobile": {}
+      "mobile": {
+        "textXPercent": 0,
+        "textYPercent": 0,
+        "imageXPercent": 0,
+        "imageYPercent": 0
+      }
     }
   },
   "visual": {
@@ -171,7 +186,11 @@
     "ghostRight": -1,
     "ghostBottom": 10,
     "profiles": {
-      "mobile": {}
+      "mobile": {
+        "imageWidth": 90,
+        "ghostRight": -2,
+        "ghostBottom": 8
+      }
     }
   },
   "quote": {
@@ -187,7 +206,11 @@
     "xPercent": -19.875,
     "yPercent": -27.6,
     "profiles": {
-      "mobile": {}
+      "mobile": {
+        "xPercent": 0,
+        "yPercent": 0,
+        "maxWidth": 340
+      }
     }
   },
   "footer": {
