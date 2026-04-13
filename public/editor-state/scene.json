@@ -61,11 +61,23 @@
     "copyXPercent": 11.25,
     "copyYPercent": -2.267,
     "profiles": {
-      "mobile": {
+      "mobile-sm": {
+        "leftWidth": 100,
+        "leftPadding": 0,
+        "copyXPercent": 0,
+        "copyYPercent": -14
+      },
+      "mobile-md": {
         "leftWidth": 100,
         "leftPadding": 0,
         "copyXPercent": 0,
         "copyYPercent": -8
+      },
+      "mobile-lg": {
+        "leftWidth": 100,
+        "leftPadding": 0,
+        "copyXPercent": 0,
+        "copyYPercent": -6
       }
     }
   },
@@ -80,9 +92,21 @@
     "chatXPercent": -1,
     "chatYPercent": 4.4,
     "profiles": {
-      "mobile": {
+      "mobile-sm": {
+        "textXPercent": 0,
+        "textYPercent": -8,
+        "chatXPercent": 0,
+        "chatYPercent": 0
+      },
+      "mobile-md": {
         "textXPercent": 0,
         "textYPercent": -4,
+        "chatXPercent": 0,
+        "chatYPercent": 0
+      },
+      "mobile-lg": {
+        "textXPercent": 0,
+        "textYPercent": -2,
         "chatXPercent": 0,
         "chatYPercent": 0
       }
@@ -170,7 +194,19 @@
     "imageXPercent": -15,
     "imageYPercent": 0.8,
     "profiles": {
-      "mobile": {
+      "mobile-sm": {
+        "textXPercent": 0,
+        "textYPercent": 0,
+        "imageXPercent": 0,
+        "imageYPercent": 0
+      },
+      "mobile-md": {
+        "textXPercent": 0,
+        "textYPercent": 0,
+        "imageXPercent": 0,
+        "imageYPercent": 0
+      },
+      "mobile-lg": {
         "textXPercent": 0,
         "textYPercent": 0,
         "imageXPercent": 0,
@@ -186,10 +222,20 @@
     "ghostRight": -1,
     "ghostBottom": 10,
     "profiles": {
-      "mobile": {
+      "mobile-sm": {
+        "imageWidth": 96,
+        "ghostRight": 1,
+        "ghostBottom": 10
+      },
+      "mobile-md": {
         "imageWidth": 90,
         "ghostRight": -2,
         "ghostBottom": 8
+      },
+      "mobile-lg": {
+        "imageWidth": 84,
+        "ghostRight": -3,
+        "ghostBottom": 7
       }
     }
   },
@@ -206,10 +252,20 @@
     "xPercent": -19.875,
     "yPercent": -27.6,
     "profiles": {
-      "mobile": {
+      "mobile-sm": {
+        "xPercent": 0,
+        "yPercent": 0,
+        "maxWidth": 292
+      },
+      "mobile-md": {
         "xPercent": 0,
         "yPercent": 0,
         "maxWidth": 340
+      },
+      "mobile-lg": {
+        "xPercent": 0,
+        "yPercent": 0,
+        "maxWidth": 388
       }
     }
   },
