@@ -27,7 +27,7 @@
       },
       {
         "id": "archive",
-        "visible": false
+        "visible": true
       }
     ]
   },
