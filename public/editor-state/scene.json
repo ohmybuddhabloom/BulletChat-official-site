@@ -23,7 +23,7 @@
       },
       {
         "id": "footer",
-        "visible": false
+        "visible": true
       },
       {
         "id": "archive",
