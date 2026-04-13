@@ -1,0 +1,648 @@
+import { useEffect, useId, useState } from 'react'
+import {
+  isJournalAssetRef,
+  resolveJournalImageSource,
+  saveJournalImageFile,
+} from '../../lib/journalAssetStore.js'
+
+function TextField({ label, value, onChange, multiline = false }) {
+  const Element = multiline ? 'textarea' : 'input'
+
+  return (
+    <div className="editor-field">
+      <label className="editor-label">
+        <span>{label}</span>
+        <Element
+          className="editor-input"
+          type={multiline ? undefined : 'text'}
+          value={value}
+          rows={multiline ? 4 : undefined}
+          onChange={(event) => onChange(event.target.value)}
+          aria-label={label}
+        />
+      </label>
+    </div>
+  )
+}
+
+function NumberField({ label, value, min, max, step = 1, onChange }) {
+  return (
+    <div className="editor-field">
+      <label className="editor-label" htmlFor={label}>
+        <span>{label}</span>
+      </label>
+      <div className="editor-range-row">
+        <input
+          id={label}
+          className="editor-range"
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={(event) => onChange(Number(event.target.value))}
+          aria-label={label}
+        />
+        <input
+          className="editor-number"
+          type="number"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={(event) => onChange(Number(event.target.value))}
+          aria-label={`${label} 数值`}
+        />
+      </div>
+    </div>
+  )
+}
+
+function ColorField({ label, value, onChange }) {
+  return (
+    <div className="editor-field">
+      <label className="editor-label">
+        <span>{label}</span>
+        <div className="editor-color-row">
+          <input
+            className="editor-color"
+            type="color"
+            value={value}
+            onChange={(event) => onChange(event.target.value)}
+            aria-label={label}
+          />
+          <input
+            className="editor-input"
+            type="text"
+            value={value}
+            onChange={(event) => onChange(event.target.value)}
+            aria-label={`${label} 十六进制`}
+          />
+        </div>
+      </label>
+    </div>
+  )
+}
+
+function EditorSection({ title, children }) {
+  return (
+    <details className="editor-section" open>
+      <summary>{title}</summary>
+      <div className="editor-section-body">{children}</div>
+    </details>
+  )
+}
+
+function ImageField({ label, value, onChange }) {
+  const inputId = useId()
+  const [previewSrc, setPreviewSrc] = useState(value || '')
+  const [uploading, setUploading] = useState(false)
+
+  useEffect(() => {
+    let active = true
+    let revoke = () => {}
+
+    if (!value) {
+      setPreviewSrc('')
+      return undefined
+    }
+
+    if (!isJournalAssetRef(value)) {
+      setPreviewSrc(value)
+      return undefined
+    }
+
+    const hydratePreview = async () => {
+      const resolved = await resolveJournalImageSource(value)
+
+      if (!active) {
+        resolved.revoke()
+        return
+      }
+
+      revoke = resolved.revoke
+      setPreviewSrc(resolved.src)
+    }
+
+    hydratePreview()
+
+    return () => {
+      active = false
+      revoke()
+    }
+  }, [value])
+
+  const handleUpload = async (event) => {
+    const file = event.target.files?.[0]
+
+    if (!file) {
+      return
+    }
+
+    setUploading(true)
+
+    try {
+      const assetRef = await saveJournalImageFile(file)
+      onChange(assetRef)
+    } finally {
+      setUploading(false)
+      event.target.value = ''
+    }
+  }
+
+  return (
+    <div className="editor-field">
+      <label className="editor-label">
+        <span>{label}</span>
+        <input
+          className="editor-input"
+          type="text"
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          aria-label={label}
+        />
+      </label>
+      <div className="editor-inline-actions">
+        <label className="editor-upload-button" htmlFor={inputId}>
+          {uploading ? '上传中…' : '上传图片'}
+        </label>
+        <input
+          id={inputId}
+          className="editor-hidden-input"
+          type="file"
+          accept="image/*"
+          onChange={handleUpload}
+          aria-label={`${label} 上传`}
+        />
+      </div>
+      {previewSrc ? (
+        <img className="editor-image-preview" src={previewSrc} alt="" />
+      ) : null}
+    </div>
+  )
+}
+
+function SunyataEditor({
+  editorOpen,
+  onToggle,
+  scene,
+  updateNavLogo,
+  updateNavLink,
+  updateHero,
+  updateInterlude,
+  updateBuddha,
+  updateCard,
+  updateJournal,
+  updateJournalLink,
+  updateJournalTheme,
+  updateJournalItem,
+  updateVisual,
+  updateQuote,
+  updateFooter,
+  onReset,
+}) {
+  return (
+    <>
+      <button
+        type="button"
+        className="sunyata-editor-toggle"
+        onClick={onToggle}
+        aria-label={editorOpen ? '关闭编辑器' : '打开编辑器'}
+      >
+        {editorOpen ? '关闭编辑器' : '打开编辑器'}
+      </button>
+
+      {editorOpen ? (
+        <aside
+          className="sunyata-editor"
+          aria-label="页面编辑器"
+          role="complementary"
+        >
+          <div className="editor-header">
+            <div>
+              <p className="editor-kicker">实时编辑</p>
+              <h2>页面编辑器</h2>
+              <p className="editor-note">
+                直接在这里调整文案、位置、图片和色调，页面会实时同步。
+              </p>
+            </div>
+            <button type="button" className="editor-ghost-button" onClick={onReset}>
+              重置默认
+            </button>
+          </div>
+
+          <EditorSection title="导航">
+            <TextField label="品牌名称" value={scene.nav.logo} onChange={updateNavLogo} />
+            {scene.nav.links.map((link, index) => (
+              <TextField
+                key={link.href}
+                label={`导航链接 ${index + 1}`}
+                value={link.label}
+                onChange={(value) => updateNavLink(index, value)}
+              />
+            ))}
+          </EditorSection>
+
+          <EditorSection title="首屏">
+            <TextField
+              label="首屏标题"
+              value={scene.hero.title}
+              onChange={(value) => updateHero('title', value)}
+            />
+            <TextField
+              label="首屏副标题"
+              value={scene.hero.subtitle}
+              multiline
+              onChange={(value) => updateHero('subtitle', value)}
+            />
+            <TextField
+              label="滚动提示"
+              value={scene.hero.scrollLabel}
+              onChange={(value) => updateHero('scrollLabel', value)}
+            />
+            <NumberField
+              label="首屏文案 X"
+              min={-180}
+              max={180}
+              value={scene.hero.copyX}
+              onChange={(value) => updateHero('copyX', value)}
+            />
+            <NumberField
+              label="首屏文案 Y"
+              min={-180}
+              max={180}
+              value={scene.hero.copyY}
+              onChange={(value) => updateHero('copyY', value)}
+            />
+            <NumberField
+              label="首屏文案宽度"
+              min={25}
+              max={60}
+              value={scene.hero.leftWidth}
+              onChange={(value) => updateHero('leftWidth', value)}
+            />
+            <NumberField
+              label="首屏左边距"
+              min={0}
+              max={20}
+              value={scene.hero.leftPadding}
+              onChange={(value) => updateHero('leftPadding', value)}
+            />
+          </EditorSection>
+
+          <EditorSection title="对话页">
+            <TextField
+              label="对话前缀"
+              value={scene.interlude.kicker}
+              onChange={(value) => updateInterlude('kicker', value)}
+            />
+            <TextField
+              label="对话标题"
+              value={scene.interlude.title}
+              onChange={(value) => updateInterlude('title', value)}
+            />
+            <TextField
+              label="对话说明"
+              value={scene.interlude.note}
+              multiline
+              onChange={(value) => updateInterlude('note', value)}
+            />
+            <TextField
+              label="输入框提示"
+              value={scene.interlude.placeholder}
+              onChange={(value) => updateInterlude('placeholder', value)}
+            />
+            <TextField
+              label="输入框按钮"
+              value={scene.interlude.actionLabel}
+              onChange={(value) => updateInterlude('actionLabel', value)}
+            />
+            <NumberField
+              label="对话框 X"
+              min={-220}
+              max={220}
+              value={scene.interlude.chatX}
+              onChange={(value) => updateInterlude('chatX', value)}
+            />
+            <NumberField
+              label="对话框 Y"
+              min={-220}
+              max={220}
+              value={scene.interlude.chatY}
+              onChange={(value) => updateInterlude('chatY', value)}
+            />
+          </EditorSection>
+
+          <EditorSection title="佛像视频">
+            <NumberField
+              label="佛像 X"
+              min={-220}
+              max={220}
+              value={scene.buddha.x}
+              onChange={(value) => updateBuddha('x', value)}
+            />
+            <NumberField
+              label="佛像 Y"
+              min={-220}
+              max={220}
+              value={scene.buddha.y}
+              onChange={(value) => updateBuddha('y', value)}
+            />
+            <NumberField
+              label="佛像移动 Y"
+              min={0}
+              max={420}
+              value={scene.buddha.travelY}
+              onChange={(value) => updateBuddha('travelY', value)}
+            />
+            <NumberField
+              label="佛像大小"
+              min={80}
+              max={180}
+              value={scene.buddha.scale}
+              onChange={(value) => updateBuddha('scale', value)}
+            />
+            <NumberField
+              label="羽化范围"
+              min={60}
+              max={110}
+              value={scene.buddha.featherRange}
+              onChange={(value) => updateBuddha('featherRange', value)}
+            />
+            <NumberField
+              label="羽化强度"
+              min={10}
+              max={100}
+              value={scene.buddha.featherStrength}
+              onChange={(value) => updateBuddha('featherStrength', value)}
+            />
+            <NumberField
+              label="停止屏幕高度"
+              min={20}
+              max={200}
+              value={scene.buddha.stopViewportY}
+              onChange={(value) => updateBuddha('stopViewportY', value)}
+            />
+          </EditorSection>
+
+          <EditorSection title="期刊页">
+            <TextField
+              label="刊号"
+              value={scene.journal.edition}
+              onChange={(value) => updateJournal('edition', value)}
+            />
+            <TextField
+              label="品牌名"
+              value={scene.journal.brand}
+              onChange={(value) => updateJournal('brand', value)}
+            />
+            <TextField
+              label="主按钮文案"
+              value={scene.journal.actionLabel}
+              onChange={(value) => updateJournal('actionLabel', value)}
+            />
+            <NumberField
+              label="期刊文字 X"
+              min={-240}
+              max={240}
+              value={scene.journal.textX}
+              onChange={(value) => updateJournal('textX', value)}
+            />
+            <NumberField
+              label="期刊文字 Y"
+              min={-240}
+              max={240}
+              value={scene.journal.textY}
+              onChange={(value) => updateJournal('textY', value)}
+            />
+            <NumberField
+              label="期刊图片 X"
+              min={-240}
+              max={240}
+              value={scene.journal.imageX}
+              onChange={(value) => updateJournal('imageX', value)}
+            />
+            <NumberField
+              label="期刊图片 Y"
+              min={-240}
+              max={240}
+              value={scene.journal.imageY}
+              onChange={(value) => updateJournal('imageY', value)}
+            />
+
+            <div className="editor-subgroup">
+              <h3>顶部链接</h3>
+              {scene.journal.links.map((link, index) => (
+                <TextField
+                  key={`${link}-${index}`}
+                  label={`期刊链接 ${index + 1}`}
+                  value={link}
+                  onChange={(value) => updateJournalLink(index, value)}
+                />
+              ))}
+            </div>
+
+            <div className="editor-subgroup">
+              <h3>背景与色调</h3>
+              <ColorField
+                label="期刊背景颜色"
+                value={scene.journal.theme.base}
+                onChange={(value) => updateJournalTheme('base', value)}
+              />
+              <NumberField
+                label="期刊背景透明度"
+                min={0}
+                max={100}
+                value={scene.journal.theme.overlayOpacity ?? 72}
+                onChange={(value) => updateJournalTheme('overlayOpacity', value)}
+              />
+              <ColorField
+                label="点金色"
+                value={scene.journal.theme.accent}
+                onChange={(value) => updateJournalTheme('accent', value)}
+              />
+              <ColorField
+                label="文字色"
+                value={scene.journal.theme.text}
+                onChange={(value) => updateJournalTheme('text', value)}
+              />
+            </div>
+
+            {scene.journal.items.map((item, index) => (
+              <div className="editor-subgroup" key={`${item.title}-${index}`}>
+                <h3>期刊卡片 {index + 1}</h3>
+                <TextField
+                  label={`卡片 ${index + 1} 标签`}
+                  value={item.tag}
+                  onChange={(value) => updateJournalItem(index, 'tag', value)}
+                />
+                <TextField
+                  label={`卡片 ${index + 1} 标题`}
+                  value={item.title}
+                  onChange={(value) => updateJournalItem(index, 'title', value)}
+                />
+                <TextField
+                  label={`卡片 ${index + 1} 描述`}
+                  value={item.description}
+                  multiline
+                  onChange={(value) =>
+                    updateJournalItem(index, 'description', value)
+                  }
+                />
+                <ImageField
+                  label={`卡片 ${index + 1} 前景图`}
+                  value={item.cardUrl}
+                  onChange={(value) => updateJournalItem(index, 'cardUrl', value)}
+                />
+                <ImageField
+                  label={`卡片 ${index + 1} 背景图`}
+                  value={item.backgroundUrl}
+                  onChange={(value) =>
+                    updateJournalItem(index, 'backgroundUrl', value)
+                  }
+                />
+              </div>
+            ))}
+          </EditorSection>
+
+          <EditorSection title="三张卡片">
+            {scene.cards.map((card, index) => (
+              <div className="editor-subgroup" key={`${card.number}-${index}`}>
+                <h3>卡片 {index + 1}</h3>
+                <TextField
+                  label={`卡片 ${index + 1} 编号`}
+                  value={card.number}
+                  onChange={(value) => updateCard(index, 'number', value)}
+                />
+                <TextField
+                  label={`卡片 ${index + 1} 标题`}
+                  value={card.title}
+                  onChange={(value) => updateCard(index, 'title', value)}
+                />
+                <TextField
+                  label={`卡片 ${index + 1} 描述`}
+                  value={card.description}
+                  multiline
+                  onChange={(value) => updateCard(index, 'description', value)}
+                />
+                <NumberField
+                  label={`卡片 ${index + 1} Y 偏移`}
+                  min={-40}
+                  max={180}
+                  value={card.offsetY}
+                  onChange={(value) => updateCard(index, 'offsetY', value)}
+                />
+              </div>
+            ))}
+          </EditorSection>
+
+          <EditorSection title="视觉图">
+            <TextField
+              label="背景大字"
+              value={scene.visual.ghostLabel}
+              onChange={(value) => updateVisual('ghostLabel', value)}
+            />
+            <ImageField
+              label="视觉图地址"
+              value={scene.visual.imageSrc}
+              onChange={(value) => updateVisual('imageSrc', value)}
+            />
+            <TextField
+              label="视觉图替代文本"
+              value={scene.visual.imageAlt}
+              onChange={(value) => updateVisual('imageAlt', value)}
+            />
+            <NumberField
+              label="视觉图宽度"
+              min={30}
+              max={95}
+              value={scene.visual.imageWidth}
+              onChange={(value) => updateVisual('imageWidth', value)}
+            />
+            <NumberField
+              label="背景大字右侧"
+              min={-20}
+              max={20}
+              value={scene.visual.ghostRight}
+              onChange={(value) => updateVisual('ghostRight', value)}
+            />
+            <NumberField
+              label="背景大字底部"
+              min={-10}
+              max={30}
+              value={scene.visual.ghostBottom}
+              onChange={(value) => updateVisual('ghostBottom', value)}
+            />
+          </EditorSection>
+
+          <EditorSection title="引文">
+            <TextField
+              label="引文文本"
+              value={scene.quote.text}
+              multiline
+              onChange={(value) => updateQuote('text', value)}
+            />
+            <TextField
+              label="工作室标签"
+              value={scene.quote.studioLabel}
+              onChange={(value) => updateQuote('studioLabel', value)}
+            />
+            <TextField
+              label="工作室内容"
+              value={scene.quote.studioText}
+              onChange={(value) => updateQuote('studioText', value)}
+            />
+            <TextField
+              label="理念标签"
+              value={scene.quote.philosophyLabel}
+              onChange={(value) => updateQuote('philosophyLabel', value)}
+            />
+            <TextField
+              label="理念内容"
+              value={scene.quote.philosophyText}
+              multiline
+              onChange={(value) => updateQuote('philosophyText', value)}
+            />
+            <NumberField
+              label="引文最大宽度"
+              min={480}
+              max={1100}
+              value={scene.quote.maxWidth}
+              onChange={(value) => updateQuote('maxWidth', value)}
+            />
+          </EditorSection>
+
+          <EditorSection title="页脚">
+            <TextField
+              label="页脚第一行"
+              value={scene.footer.titleLine1}
+              onChange={(value) => updateFooter('titleLine1', value)}
+            />
+            <TextField
+              label="页脚第二行"
+              value={scene.footer.titleLine2}
+              onChange={(value) => updateFooter('titleLine2', value)}
+            />
+            <TextField
+              label="页脚按钮"
+              value={scene.footer.ctaLabel}
+              onChange={(value) => updateFooter('ctaLabel', value)}
+            />
+            <TextField
+              label="版权第一行"
+              value={scene.footer.copyrightLine1}
+              onChange={(value) => updateFooter('copyrightLine1', value)}
+            />
+            <TextField
+              label="版权第二行"
+              value={scene.footer.copyrightLine2}
+              onChange={(value) => updateFooter('copyrightLine2', value)}
+            />
+          </EditorSection>
+        </aside>
+      ) : null}
+    </>
+  )
+}
+
+export default SunyataEditor

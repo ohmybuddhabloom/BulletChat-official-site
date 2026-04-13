@@ -1,0 +1,75 @@
+import { useEffect, useState } from 'react'
+import { resolveJournalImageSource } from '../../lib/journalAssetStore.js'
+
+function SunyataVisual({ sectionRef, ghostLabelRef, visual, quote }) {
+  const [resolvedImageSrc, setResolvedImageSrc] = useState(visual.imageSrc)
+
+  useEffect(() => {
+    let active = true
+    let revoke = () => {}
+
+    const hydrateImage = async () => {
+      const resolved = await resolveJournalImageSource(visual.imageSrc)
+
+      if (!active) {
+        resolved.revoke()
+        return
+      }
+
+      revoke = resolved.revoke
+      setResolvedImageSrc(resolved.src)
+    }
+
+    hydrateImage()
+
+    return () => {
+      active = false
+      revoke()
+    }
+  }, [visual.imageSrc])
+
+  return (
+    <section ref={sectionRef} className="visual-quote-section" id="vessels">
+      <div className="visual-anchor">
+        <div
+          ref={ghostLabelRef}
+          className="ghost-label"
+          aria-hidden="true"
+          style={{
+            right: `${visual.ghostRight}%`,
+            bottom: `${visual.ghostBottom}%`,
+          }}
+        >
+          {visual.ghostLabel}
+        </div>
+        <img
+          src={resolvedImageSrc}
+          alt={visual.imageAlt}
+          className="main-visual"
+          style={{ width: `${visual.imageWidth}%` }}
+        />
+      </div>
+
+      <div
+        className="quote-wrap visual-quote-wrap"
+        id="silence"
+        style={{ maxWidth: `${quote.maxWidth}px` }}
+      >
+        <p className="quote-copy">{quote.text}</p>
+
+        <div className="quote-details">
+          <div>
+            <h4>{quote.studioLabel}</h4>
+            <p>{quote.studioText}</p>
+          </div>
+          <div>
+            <h4>{quote.philosophyLabel}</h4>
+            <p>{quote.philosophyText}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default SunyataVisual
