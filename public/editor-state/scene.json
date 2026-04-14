@@ -54,76 +54,48 @@
   },
   "hero": {
     "title": "Buddha Chat",
-    "subtitle": "The world reflects your inner desire; what you sincerely seek, you shall surely find.",
+    "subtitle": "she whispers the ancient mantras he is hearing in his soul. showing the inspiration spirit channeling into the physical vessel.",
     "scrollLabel": "scroll to enter",
     "leftWidth": 40,
     "leftPadding": 10,
     "profiles": {
-      "mobile-sm": {
+      "mobile": {
         "leftWidth": 100,
         "leftPadding": 0,
         "copyXPercent": 0,
-        "copyYPercent": 10
-      },
-      "mobile-md": {
-        "leftWidth": 100,
-        "leftPadding": 0,
-        "copyXPercent": 0,
-        "copyYPercent": 7
-      },
-      "mobile-lg": {
-        "leftWidth": 100,
-        "leftPadding": 0,
-        "copyXPercent": 0,
-        "copyYPercent": 4
+        "copyYPercent": -8
       }
     },
     "copyXPercent": 11.25,
-    "copyYPercent": -0.3
+    "copyYPercent": -2.267
   },
   "interlude": {
     "kicker": "Quiet Dialogue",
-    "title": "Leave your worries with the Buddha",
-    "note": "refine your life into Stillness",
+    "title": "Place a question into the hush.",
+    "note": "The second screen should stay mostly empty, with only a soft line of text and a single field below.",
     "placeholder": "Ask Buddha a question...",
     "actionLabel": "Offer",
     "profiles": {
-      "mobile-sm": {
+      "mobile": {
         "textXPercent": 0,
-        "textYPercent": -2,
-        "chatXPercent": 0,
-        "chatYPercent": 0
-      },
-      "mobile-md": {
-        "textXPercent": 0,
-        "textYPercent": 0,
-        "chatXPercent": 0,
-        "chatYPercent": 0
-      },
-      "mobile-lg": {
-        "textXPercent": 0,
-        "textYPercent": 1,
+        "textYPercent": -4,
         "chatXPercent": 0,
         "chatYPercent": 0
       }
     },
-    "textXPercent": 9.8,
-    "textYPercent": 7.6,
-    "chatXPercent": -0.9,
+    "textXPercent": 6.313,
+    "textYPercent": -13.733,
+    "chatXPercent": -1,
     "chatYPercent": 4.4
   },
   "buddha": {
     "x": -95,
-    "y": 15,
+    "y": 0,
     "travelY": 260,
     "stopViewportY": 112,
     "scale": 126,
-    "shellTop": 18,
-    "shellRight": 18,
-    "shellBottom": 18,
-    "shellLeft": 18,
-    "featherRange": 73,
-    "featherStrength": 72
+    "featherRange": 69,
+    "featherStrength": 68
   },
   "cards": [
     {
@@ -189,24 +161,12 @@
         "title": "Basaltic",
         "tag": "Volcanic Arc",
         "description": "Geometric purity of volcanic structures. Where liquid fire solidified into obsidian pillars amidst the North Atlantic spray.",
-        "cardUrl": "/journal/card-3-foreground.png",
+        "cardUrl": "/editor-assets/2026-04-14T19-29-55-525Z-2026-04-15-03-29-40.png",
         "backgroundUrl": "/journal/card-3-background.webp"
       }
     ],
     "profiles": {
-      "mobile-sm": {
-        "textXPercent": 0,
-        "textYPercent": 0,
-        "imageXPercent": 0,
-        "imageYPercent": 0
-      },
-      "mobile-md": {
-        "textXPercent": 0,
-        "textYPercent": 0,
-        "imageXPercent": 0,
-        "imageYPercent": 0
-      },
-      "mobile-lg": {
+      "mobile": {
         "textXPercent": 0,
         "textYPercent": 0,
         "imageXPercent": 0,
@@ -226,20 +186,10 @@
     "ghostRight": -1,
     "ghostBottom": 10,
     "profiles": {
-      "mobile-sm": {
-        "imageWidth": 88,
-        "ghostRight": 1,
-        "ghostBottom": 9
-      },
-      "mobile-md": {
-        "imageWidth": 84,
-        "ghostRight": -1,
+      "mobile": {
+        "imageWidth": 90,
+        "ghostRight": -2,
         "ghostBottom": 8
-      },
-      "mobile-lg": {
-        "imageWidth": 80,
-        "ghostRight": -3,
-        "ghostBottom": 7
       }
     }
   },
@@ -254,28 +204,18 @@
     "philosophyLabel": "",
     "philosophyText": "",
     "profiles": {
-      "mobile-sm": {
+      "mobile": {
         "xPercent": 0,
         "yPercent": 0,
-        "maxWidth": 276
-      },
-      "mobile-md": {
-        "xPercent": 0,
-        "yPercent": 0,
-        "maxWidth": 316
-      },
-      "mobile-lg": {
-        "xPercent": 0,
-        "yPercent": 0,
-        "maxWidth": 360
+        "maxWidth": 340
       }
     },
     "xPercent": -19.875,
     "yPercent": -27.6
   },
   "footer": {
-    "titleLine1": "Seek and it is given.",
-    "titleLine2": "",
+    "titleLine1": "Begin your",
+    "titleLine2": "quietude.",
     "ctaLabel": "Join the circle",
     "copyrightLine1": "© 2024 SŪNYATĀ COLLECTIVE",
     "copyrightLine2": "ALL RIGHTS RESERVED IN THE VOID"
