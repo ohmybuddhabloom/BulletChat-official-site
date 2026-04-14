@@ -90,7 +90,7 @@
   },
   "buddha": {
     "x": -95,
-    "y": 0,
+    "y": 15,
     "travelY": 260,
     "stopViewportY": 112,
     "scale": 126,
