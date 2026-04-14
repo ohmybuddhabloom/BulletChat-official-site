@@ -255,9 +255,9 @@
   },
   "quote": {
     "text": "\"A single seed brings a vast harvest; blessings ripple from every gift.\"",
-    "maxWidth": 560,
-    "backgroundOpacity": 56,
-    "backgroundBlur": 56,
+    "maxWidth": 612,
+    "backgroundOpacity": 0,
+    "backgroundBlur": 0,
     "backgroundPadding": 26,
     "backgroundFeather": 77,
     "studioLabel": "Eko dānaḥ sahasraphalaṃ dadāti; dānāt puṇyaṃ prajāyate.",
