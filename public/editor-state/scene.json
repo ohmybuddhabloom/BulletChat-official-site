@@ -58,59 +58,35 @@
     "scrollLabel": "scroll to enter",
     "leftWidth": 40,
     "leftPadding": 10,
-    "copyXPercent": 11.25,
-    "copyYPercent": -2.267,
     "profiles": {
-      "mobile-sm": {
+      "mobile": {
         "leftWidth": 100,
         "leftPadding": 0,
         "copyXPercent": 0,
-        "copyYPercent": 10
-      },
-      "mobile-md": {
-        "leftWidth": 100,
-        "leftPadding": 0,
-        "copyXPercent": 0,
-        "copyYPercent": 7
-      },
-      "mobile-lg": {
-        "leftWidth": 100,
-        "leftPadding": 0,
-        "copyXPercent": 0,
-        "copyYPercent": 4
+        "copyYPercent": -8
       }
-    }
+    },
+    "copyXPercent": 11.25,
+    "copyYPercent": -2.267
   },
   "interlude": {
     "kicker": "Quiet Dialogue",
-    "title": "Place a question into the hush.",
+    "title": "Leave your worries with the Buddha, and refine your life into Stillness.",
     "note": "The second screen should stay mostly empty, with only a soft line of text and a single field below.",
     "placeholder": "Ask Buddha a question...",
     "actionLabel": "Offer",
-    "textXPercent": 6.313,
-    "textYPercent": -13.733,
-    "chatXPercent": -1,
-    "chatYPercent": 4.4,
     "profiles": {
-      "mobile-sm": {
+      "mobile": {
         "textXPercent": 0,
-        "textYPercent": -2,
-        "chatXPercent": 0,
-        "chatYPercent": 0
-      },
-      "mobile-md": {
-        "textXPercent": 0,
-        "textYPercent": 0,
-        "chatXPercent": 0,
-        "chatYPercent": 0
-      },
-      "mobile-lg": {
-        "textXPercent": 0,
-        "textYPercent": 1,
+        "textYPercent": -4,
         "chatXPercent": 0,
         "chatYPercent": 0
       }
-    }
+    },
+    "textXPercent": 9.8,
+    "textYPercent": -13.733,
+    "chatXPercent": -0.9,
+    "chatYPercent": 4.4
   },
   "buddha": {
     "x": -95,
@@ -189,30 +165,18 @@
         "backgroundUrl": "/journal/card-3-background.webp"
       }
     ],
-    "textXPercent": 15,
-    "textYPercent": 2.133,
-    "imageXPercent": -15,
-    "imageYPercent": 0.8,
     "profiles": {
-      "mobile-sm": {
-        "textXPercent": 0,
-        "textYPercent": 0,
-        "imageXPercent": 0,
-        "imageYPercent": 0
-      },
-      "mobile-md": {
-        "textXPercent": 0,
-        "textYPercent": 0,
-        "imageXPercent": 0,
-        "imageYPercent": 0
-      },
-      "mobile-lg": {
+      "mobile": {
         "textXPercent": 0,
         "textYPercent": 0,
         "imageXPercent": 0,
         "imageYPercent": 0
       }
-    }
+    },
+    "textXPercent": 15,
+    "textYPercent": 2.133,
+    "imageXPercent": -15,
+    "imageYPercent": 0.8
   },
   "visual": {
     "ghostLabel": "PRESENCE",
@@ -222,20 +186,10 @@
     "ghostRight": -1,
     "ghostBottom": 10,
     "profiles": {
-      "mobile-sm": {
-        "imageWidth": 88,
-        "ghostRight": 1,
-        "ghostBottom": 9
-      },
-      "mobile-md": {
-        "imageWidth": 84,
-        "ghostRight": -1,
+      "mobile": {
+        "imageWidth": 90,
+        "ghostRight": -2,
         "ghostBottom": 8
-      },
-      "mobile-lg": {
-        "imageWidth": 80,
-        "ghostRight": -3,
-        "ghostBottom": 7
       }
     }
   },
@@ -249,25 +203,15 @@
     "studioText": "Kyoto / Zurich / Joshua Tree",
     "philosophyLabel": "",
     "philosophyText": "",
-    "xPercent": -19.875,
-    "yPercent": -27.6,
     "profiles": {
-      "mobile-sm": {
+      "mobile": {
         "xPercent": 0,
         "yPercent": 0,
-        "maxWidth": 276
-      },
-      "mobile-md": {
-        "xPercent": 0,
-        "yPercent": 0,
-        "maxWidth": 316
-      },
-      "mobile-lg": {
-        "xPercent": 0,
-        "yPercent": 0,
-        "maxWidth": 360
+        "maxWidth": 340
       }
-    }
+    },
+    "xPercent": -19.875,
+    "yPercent": -27.6
   },
   "footer": {
     "titleLine1": "Begin your",
