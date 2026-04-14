@@ -87,6 +87,9 @@
     "note": "The second screen should stay mostly empty, with only a soft line of text and a single field below.",
     "placeholder": "Ask Buddha a question...",
     "actionLabel": "Offer",
+    "responseLabel": "Buddha replies",
+    "responseText": "Offer the question gently. The next clear step usually arrives before the full answer does.",
+    "responseDelayMs": 420,
     "profiles": {
       "mobile-sm": {
         "textXPercent": 0,
@@ -141,6 +144,14 @@
       "offsetY": 80
     }
   ],
+  "waitlist": {
+    "kicker": "Reserve The App",
+    "title": "Join the first circle to receive Buddha Chat.",
+    "note": "Leave your email to receive the private release link, early rituals, and the first blessing when the app opens.",
+    "emailPlaceholder": "Enter your email",
+    "actionLabel": "Reserve",
+    "successMessage": "You are on the list."
+  },
   "journal": {
     "edition": "Edition No. 04",
     "brand": "snapstory journal",
@@ -269,6 +280,30 @@
     },
     "xPercent": -19.875,
     "yPercent": -27.6
+  },
+  "donation": {
+    "kicker": "Circle of Giving",
+    "note": "A small offering keeps the app alive, funds future teachings, and helps us share a quieter digital ritual with more people.",
+    "emailPlaceholder": "Leave your email for the donation link",
+    "actionLabel": "Continue",
+    "successMessage": "Your donation link is being prepared.",
+    "tiers": [
+      {
+        "amount": "0.99",
+        "label": "$0.99",
+        "description": "Light a candle"
+      },
+      {
+        "amount": "5.99",
+        "label": "$5.99",
+        "description": "Open a gate"
+      },
+      {
+        "amount": "12.99",
+        "label": "$12.99",
+        "description": "Support a retreat"
+      }
+    ]
   },
   "footer": {
     "titleLine1": "Seek and it is given",
