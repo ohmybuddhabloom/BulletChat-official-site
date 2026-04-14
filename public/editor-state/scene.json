@@ -59,11 +59,23 @@
     "leftWidth": 40,
     "leftPadding": 10,
     "profiles": {
-      "mobile": {
+      "mobile-sm": {
         "leftWidth": 100,
         "leftPadding": 0,
         "copyXPercent": 0,
-        "copyYPercent": -8
+        "copyYPercent": 10
+      },
+      "mobile-md": {
+        "leftWidth": 100,
+        "leftPadding": 0,
+        "copyXPercent": 0,
+        "copyYPercent": 7
+      },
+      "mobile-lg": {
+        "leftWidth": 100,
+        "leftPadding": 0,
+        "copyXPercent": 0,
+        "copyYPercent": 4
       }
     },
     "copyXPercent": 11.25,
@@ -76,9 +88,21 @@
     "placeholder": "Ask Buddha a question...",
     "actionLabel": "Offer",
     "profiles": {
-      "mobile": {
+      "mobile-sm": {
         "textXPercent": 0,
-        "textYPercent": -4,
+        "textYPercent": -2,
+        "chatXPercent": 0,
+        "chatYPercent": 0
+      },
+      "mobile-md": {
+        "textXPercent": 0,
+        "textYPercent": 0,
+        "chatXPercent": 0,
+        "chatYPercent": 0
+      },
+      "mobile-lg": {
+        "textXPercent": 0,
+        "textYPercent": 1,
         "chatXPercent": 0,
         "chatYPercent": 0
       }
@@ -94,6 +118,10 @@
     "travelY": 260,
     "stopViewportY": 112,
     "scale": 126,
+    "shellTop": 18,
+    "shellRight": 18,
+    "shellBottom": 18,
+    "shellLeft": 18,
     "featherRange": 73,
     "featherStrength": 72
   },
@@ -166,7 +194,19 @@
       }
     ],
     "profiles": {
-      "mobile": {
+      "mobile-sm": {
+        "textXPercent": 0,
+        "textYPercent": 0,
+        "imageXPercent": 0,
+        "imageYPercent": 0
+      },
+      "mobile-md": {
+        "textXPercent": 0,
+        "textYPercent": 0,
+        "imageXPercent": 0,
+        "imageYPercent": 0
+      },
+      "mobile-lg": {
         "textXPercent": 0,
         "textYPercent": 0,
         "imageXPercent": 0,
@@ -186,10 +226,20 @@
     "ghostRight": -1,
     "ghostBottom": 10,
     "profiles": {
-      "mobile": {
-        "imageWidth": 90,
-        "ghostRight": -2,
+      "mobile-sm": {
+        "imageWidth": 88,
+        "ghostRight": 1,
+        "ghostBottom": 9
+      },
+      "mobile-md": {
+        "imageWidth": 84,
+        "ghostRight": -1,
         "ghostBottom": 8
+      },
+      "mobile-lg": {
+        "imageWidth": 80,
+        "ghostRight": -3,
+        "ghostBottom": 7
       }
     }
   },
@@ -204,10 +254,20 @@
     "philosophyLabel": "",
     "philosophyText": "",
     "profiles": {
-      "mobile": {
+      "mobile-sm": {
         "xPercent": 0,
         "yPercent": 0,
-        "maxWidth": 340
+        "maxWidth": 276
+      },
+      "mobile-md": {
+        "xPercent": 0,
+        "yPercent": 0,
+        "maxWidth": 316
+      },
+      "mobile-lg": {
+        "xPercent": 0,
+        "yPercent": 0,
+        "maxWidth": 360
       }
     },
     "xPercent": -19.875,
