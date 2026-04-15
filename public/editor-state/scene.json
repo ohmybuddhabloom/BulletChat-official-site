@@ -171,19 +171,19 @@
     "phones": [
       {
         "key": "left",
-        "imageSrc": "/app-previews/master-updates.png",
+        "imageSrc": "/app-previews/master-updates.webp",
         "imageAlt": "Foshuo wisdom feed",
         "layout": "left"
       },
       {
         "key": "center",
-        "imageSrc": "/app-previews/foshuo-home.png",
+        "imageSrc": "/app-previews/foshuo-home.webp",
         "imageAlt": "Foshuo home sanctuary screen",
         "layout": "center"
       },
       {
         "key": "right",
-        "imageSrc": "/app-previews/qa-detail.png",
+        "imageSrc": "/app-previews/qa-detail.webp",
         "imageAlt": "Foshuo detail practice screen",
         "layout": "right"
       }
@@ -220,24 +220,24 @@
         "title": "Life in Thangka",
         "tag": "Sacred Art",
         "description": "Prakash Khadgi has devoted his life to Thangka, carrying a sacred artistic tradition into the present with quiet conviction.",
-        "cardUrl": "/editor-assets/2026-04-13T04-30-05-514Z-kling_20260412_-_-_-1___393_0.png",
-        "backgroundUrl": "/journal/card-1-background.png"
+        "cardUrl": "/editor-assets/2026-04-13T04-30-05-514Z-kling_20260412_-_-_-1___393_0.webp",
+        "backgroundUrl": "/journal/card-1-background.webp"
       },
       {
         "slug": "journey-of-amethyst",
         "title": "Journey of Amethyst",
         "tag": "Healing Stone",
         "description": "A journey through Nepal reveals amethyst as more than a stone, becoming a vessel for calm, healing, and inward listening.",
-        "cardUrl": "/editor-assets/2026-04-13T04-29-38-508Z-DSC01541.jpg",
-        "backgroundUrl": "/journal/card-2-background.jpg"
+        "cardUrl": "/editor-assets/2026-04-13T04-29-38-508Z-DSC01541.webp",
+        "backgroundUrl": "/journal/card-2-background.webp"
       },
       {
         "slug": "children-of-scripture",
         "title": "Children of Scripture",
         "tag": "cripture & Childhood",
         "description": "In a quiet courtyard in Kathmandu, children have spent twenty years writing their way toward focus, calm, and a different future.",
-        "cardUrl": "/editor-assets/2026-04-14T20-18-46-668Z-DSC01789.jpg",
-        "backgroundUrl": "/editor-assets/2026-04-14T19-30-56-466Z-2026-04-15-03-30-43.png"
+        "cardUrl": "/editor-assets/2026-04-14T20-18-46-668Z-DSC01789.webp",
+        "backgroundUrl": "/editor-assets/2026-04-14T19-30-56-466Z-2026-04-15-03-30-43.webp"
       }
     ],
     "profiles": {
@@ -267,7 +267,7 @@
   },
   "visual": {
     "ghostLabel": "PRESENCE",
-    "imageSrc": "/editor-assets/2026-04-13T04-02-04-178Z-kling_20260412_-_-_-1__3298_0.png",
+    "imageSrc": "/editor-assets/2026-04-13T04-02-04-178Z-kling_20260412_-_-_-1__3298_0.webp",
     "imageAlt": "Abstract Light",
     "imageWidth": 83,
     "imageX": 0,

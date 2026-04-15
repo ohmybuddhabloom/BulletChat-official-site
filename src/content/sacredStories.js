@@ -285,7 +285,7 @@ export const SACRED_STORIES = [
     "location": "Kathmandu Valley",
     "lead": "In the Kathmandu Valley, the indigenous Newar people have preserved a unique artistic tradition known as Paubha, more widely recognized today as Thangka painting.",
     "summary": "A story of sacred painting, artistic discipline, and the life of Prakash Khadgi, who carried an old lineage into a changing Nepal.",
-    "cardImage": "/story-assets/thangka/thangka-1.jpg",
+    "cardImage": "/story-assets/thangka/thangka-1.webp",
     "blocks": [
       {
         "type": "heading",
@@ -306,7 +306,7 @@ export const SACRED_STORIES = [
       {
         "type": "image",
         "alt": "Story image 1",
-        "src": "/story-assets/thangka/thangka-1.jpg"
+        "src": "/story-assets/thangka/thangka-1.webp"
       },
       {
         "type": "heading",
@@ -351,7 +351,7 @@ export const SACRED_STORIES = [
       {
         "type": "image",
         "alt": "Story image 1",
-        "src": "/story-assets/thangka/thangka-2.jpg"
+        "src": "/story-assets/thangka/thangka-2.webp"
       },
       {
         "type": "heading",
@@ -384,7 +384,7 @@ export const SACRED_STORIES = [
       {
         "type": "image",
         "alt": "Story image 1",
-        "src": "/story-assets/thangka/thangka-3.jpg"
+        "src": "/story-assets/thangka/thangka-3.webp"
       },
       {
         "type": "heading",
@@ -413,7 +413,7 @@ export const SACRED_STORIES = [
       {
         "type": "image",
         "alt": "Story image 1",
-        "src": "/story-assets/thangka/thangka-4.jpg"
+        "src": "/story-assets/thangka/thangka-4.webp"
       },
       {
         "type": "heading",
@@ -462,7 +462,7 @@ export const SACRED_STORIES = [
       {
         "type": "image",
         "alt": "Story image 1",
-        "src": "/story-assets/thangka/thangka-5.png"
+        "src": "/story-assets/thangka/thangka-5.webp"
       },
       {
         "type": "heading",
@@ -497,7 +497,7 @@ export const SACRED_STORIES = [
       {
         "type": "image",
         "alt": "Story image 1",
-        "src": "/story-assets/thangka/thangka-6.jpg"
+        "src": "/story-assets/thangka/thangka-6.webp"
       },
       {
         "type": "heading",
@@ -536,7 +536,7 @@ export const SACRED_STORIES = [
       {
         "type": "image",
         "alt": "Story image 1",
-        "src": "/story-assets/thangka/thangka-7.jpg"
+        "src": "/story-assets/thangka/thangka-7.webp"
       },
       {
         "type": "heading",

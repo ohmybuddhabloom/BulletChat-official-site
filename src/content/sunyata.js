@@ -25,8 +25,8 @@ const defaultJournalItems = [
     tag: 'Terrain Study',
     description:
       'Shadow play across the Scottish glens. A study in emerald and grey, where the clouds meet the earth in perpetual mist.',
-    backgroundUrl: '/journal/card-1-background.png',
-    cardUrl: '/journal/card-1-foreground.png',
+    backgroundUrl: '/journal/card-1-background.webp',
+    cardUrl: '/journal/card-1-foreground.webp',
   },
   {
     slug: 'journey-of-amethyst',
@@ -34,8 +34,8 @@ const defaultJournalItems = [
     tag: 'Flora Folio',
     description:
       'Ancient conifers standing sentinel against the biting frost. Deep forest textures captured in the golden hour of sub-arctic winter.',
-    backgroundUrl: '/journal/card-2-background.jpg',
-    cardUrl: '/journal/card-2-foreground.png',
+    backgroundUrl: '/journal/card-2-background.webp',
+    cardUrl: '/journal/card-2-foreground.webp',
   },
   {
     slug: 'a-life-in-thangka',
@@ -44,7 +44,7 @@ const defaultJournalItems = [
     description:
       'Geometric purity of volcanic structures. Where liquid fire solidified into obsidian pillars amidst the North Atlantic spray.',
     backgroundUrl: '/journal/card-3-background.webp',
-    cardUrl: '/journal/card-3-foreground.png',
+    cardUrl: '/journal/card-3-foreground.webp',
   },
 ]
 
@@ -256,19 +256,19 @@ export const defaultScene = {
     phones: [
       {
         key: 'left',
-        imageSrc: '/app-previews/master-updates.png',
+        imageSrc: '/app-previews/master-updates.webp',
         imageAlt: 'Foshuo wisdom feed',
         layout: 'left',
       },
       {
         key: 'center',
-        imageSrc: '/app-previews/foshuo-home.png',
+        imageSrc: '/app-previews/foshuo-home.webp',
         imageAlt: 'Foshuo home sanctuary screen',
         layout: 'center',
       },
       {
         key: 'right',
-        imageSrc: '/app-previews/qa-detail.png',
+        imageSrc: '/app-previews/qa-detail.webp',
         imageAlt: 'Foshuo detail practice screen',
         layout: 'right',
       },

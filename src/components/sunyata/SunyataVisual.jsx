@@ -114,6 +114,7 @@ function SunyataVisual({
           src={resolvedImageSrc}
           alt={visual.imageAlt}
           className="main-visual"
+          loading="lazy"
           style={{
             width: `${visual.imageWidth}%`,
             transform: `translate3d(${visual.imageX ?? 0}%, 0px, 0px)`,
@@ -170,7 +171,7 @@ function SunyataVisual({
                 }`}
               >
                 <div className="donation-gallery-media">
-                  <img src={item.imageSrc} alt={item.imageAlt} />
+                  <img src={item.imageSrc} alt={item.imageAlt} loading="lazy" />
                   <div className="donation-gallery-overlay">
                     <span>{item.overlay}</span>
                   </div>
