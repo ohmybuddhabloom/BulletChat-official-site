@@ -144,13 +144,33 @@
       "offsetY": 80
     }
   ],
-  "waitlist": {
-    "kicker": "Reserve The App",
-    "title": "Join the first circle to receive Buddha Chat.",
-    "note": "Leave your email to receive the private release link, early rituals, and the first blessing when the app opens.",
-    "emailPlaceholder": "Enter your email",
-    "actionLabel": "Reserve",
-    "successMessage": "You are on the list."
+  "appShowcase": {
+    "kicker": "A Sacred Digital Experience",
+    "title": "The Digital Sanctuary.",
+    "lead": "Reconnect with your inner stillness. Foshuo translates ritual, wisdom, and ceremonial calm into a digital experience that feels weighted, luminous, and memorable.",
+    "primaryActionLabel": "Download Now",
+    "secondaryActionLabel": "Watch the Story",
+    "proofText": "Joined by 12,000+ seekers worldwide",
+    "phones": [
+      {
+        "key": "left",
+        "imageSrc": "/app-previews/master-updates.png",
+        "imageAlt": "Foshuo wisdom feed",
+        "layout": "left"
+      },
+      {
+        "key": "center",
+        "imageSrc": "/app-previews/foshuo-home.png",
+        "imageAlt": "Foshuo home sanctuary screen",
+        "layout": "center"
+      },
+      {
+        "key": "right",
+        "imageSrc": "/app-previews/qa-detail.png",
+        "imageAlt": "Foshuo detail practice screen",
+        "layout": "right"
+      }
+    ]
   },
   "journal": {
     "edition": "Edition No. 04",
@@ -342,5 +362,13 @@
     "ctaLabel": "Join the circle",
     "copyrightLine1": "© 2024 SŪNYATĀ COLLECTIVE",
     "copyrightLine2": "ALL RIGHTS RESERVED IN THE VOID"
+  },
+  "waitlist": {
+    "kicker": "Reserve The App",
+    "title": "Join the first circle to receive Buddha Chat.",
+    "note": "Leave your email to receive the private release link, early rituals, and the first blessing when the app opens.",
+    "emailPlaceholder": "Enter your email",
+    "actionLabel": "Reserve",
+    "successMessage": "You are on the list."
   }
 }
