@@ -18,6 +18,7 @@ const CORRUPTED_DEFAULT_COPY = {
 
 const defaultJournalItems = [
   {
+    slug: 'children-of-scripture',
     title: 'Highlands',
     tag: 'Terrain Study',
     description:
@@ -26,6 +27,7 @@ const defaultJournalItems = [
     cardUrl: '/journal/card-1-foreground.png',
   },
   {
+    slug: 'journey-of-amethyst',
     title: 'The Taiga',
     tag: 'Flora Folio',
     description:
@@ -34,12 +36,34 @@ const defaultJournalItems = [
     cardUrl: '/journal/card-2-foreground.png',
   },
   {
+    slug: 'a-life-in-thangka',
     title: 'Basaltic',
     tag: 'Volcanic Arc',
     description:
       'Geometric purity of volcanic structures. Where liquid fire solidified into obsidian pillars amidst the North Atlantic spray.',
     backgroundUrl: '/journal/card-3-background.webp',
     cardUrl: '/journal/card-3-foreground.png',
+  },
+]
+
+const defaultDonationGalleryItems = [
+  {
+    title: 'Bodhi Seed Mala',
+    note: '108 beads of traditional wisdom',
+    overlay: 'Sandalwood Essence',
+    imageSrc:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuAqRYy9OXZqtyYPJV4l7ecMdTIomNUoaQBw1MVd0Thoo4aSAy1l1Xq1xvfnA7BSZnMCqZ-BjwRu_ZShfpIi55F6RzFt8CIGx-WFLdlDTNV9wit3KlhjZCx9jcCFBBzUsy2Na6YY5vVYzx9QkD0I0uM4-jjBfT8V0Nv1rrqg-CogNElgl52l_wceJGU32knzKZ6QFp0G6tAs35bs8k5UU6qG8XAyCG9Cl7RzDYLn4cZNQLBTI3rjd8mSErJR7xM4J0fP8fdg9Vk7l1k',
+    imageAlt:
+      'Close-up of sacred sandalwood prayer beads on a weathered stone surface with soft morning light and lens flare',
+  },
+  {
+    title: 'Lapis Wisdom',
+    note: 'Sourced from high-altitude veins',
+    overlay: 'Celestial Vision',
+    imageSrc:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuC35x9I823IWO30P2wbJTc6RI_cfVSWQF1gKLRPQSeuf70dF78tPczfn-zDB9hyG_O5e1iaHRsBio7IhAGxfqKvaLKXMaUfVW3ZhId1kiikyn3mgegl3mcpSbBxSu4maVG_LMfwLW72dwBcPOjbBEN28d1V2QcuF-pniE4EHz94ocBpdb-QHuhRFr0CLWLi1Xn6pDxDWHYfPhMmiPK1_Hzd5Y2XQOPXIzwP7dCJwIJ9AWz7wkfOQYzWyAw-K-p1-N5RVB_cAnpqjtU',
+    imageAlt:
+      'Elegant wrist wearing a lapis lazuli prayer bracelet with gold accents against a soft blurred botanical background',
   },
 ]
 
@@ -89,6 +113,7 @@ export function normalizeJournalItems(items) {
     const currentItem = items?.[index]
 
     return {
+      slug: currentItem?.slug ?? fallbackItem.slug,
       title: currentItem?.title ?? fallbackItem.title,
       tag: currentItem?.tag ?? fallbackItem.tag,
       description: currentItem?.description ?? fallbackItem.description,
@@ -105,6 +130,20 @@ export function normalizeJournalItems(items) {
   })
 }
 
+export function normalizeDonationGalleryItems(items) {
+  return defaultDonationGalleryItems.map((fallbackItem, index) => {
+    const currentItem = items?.[index]
+
+    return {
+      title: currentItem?.title ?? fallbackItem.title,
+      note: currentItem?.note ?? fallbackItem.note,
+      overlay: currentItem?.overlay ?? fallbackItem.overlay,
+      imageSrc: currentItem?.imageSrc ?? fallbackItem.imageSrc,
+      imageAlt: currentItem?.imageAlt ?? fallbackItem.imageAlt,
+    }
+  })
+}
+
 export const defaultScene = {
   layout: {
     sections: normalizeLayoutSections(),
@@ -115,7 +154,7 @@ export const defaultScene = {
       { label: 'The Path', href: '#path' },
       { label: 'Sanctuary', href: '#sanctuary' },
       { label: 'Vessels', href: '#vessels' },
-      { label: 'Silence', href: '#silence' },
+      { label: 'Story', href: '#silence' },
     ],
   },
   hero: {
@@ -134,6 +173,10 @@ export const defaultScene = {
     note: 'The second screen should stay mostly empty, with only a soft line of text and a single field below.',
     placeholder: 'Ask Buddha a question...',
     actionLabel: 'Offer',
+    responseLabel: 'Buddha replies',
+    responseText:
+      'Offer the question gently. The next clear step usually arrives before the full answer does.',
+    responseDelayMs: 420,
     textX: 0,
     textY: 0,
     chatX: 0,
@@ -171,6 +214,35 @@ export const defaultScene = {
       offsetY: 80,
     },
   ],
+  appShowcase: {
+    kicker: 'A Sacred Digital Experience',
+    title: 'The Digital Sanctuary.',
+    lead:
+      'Reconnect with your inner stillness. Foshuo translates ritual, wisdom, and ceremonial calm into a digital experience that feels weighted, luminous, and memorable.',
+    primaryActionLabel: 'Download Now',
+    secondaryActionLabel: 'Watch the Story',
+    proofText: 'Joined by 12,000+ seekers worldwide',
+    phones: [
+      {
+        key: 'left',
+        imageSrc: '/app-previews/master-updates.png',
+        imageAlt: 'Foshuo wisdom feed',
+        layout: 'left',
+      },
+      {
+        key: 'center',
+        imageSrc: '/app-previews/foshuo-home.png',
+        imageAlt: 'Foshuo home sanctuary screen',
+        layout: 'center',
+      },
+      {
+        key: 'right',
+        imageSrc: '/app-previews/qa-detail.png',
+        imageAlt: 'Foshuo detail practice screen',
+        layout: 'right',
+      },
+    ],
+  },
   journal: {
     edition: 'Edition No. 04',
     brand: 'snapstory journal',
@@ -203,6 +275,7 @@ export const defaultScene = {
       'https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?q=80&w=2000&auto=format&fit=crop',
     imageAlt: 'Abstract Light',
     imageWidth: 60,
+    imageX: 0,
     ghostRight: -5,
     ghostBottom: 10,
   },
@@ -214,18 +287,45 @@ export const defaultScene = {
     backgroundOpacity: 20,
     backgroundBlur: 44,
     backgroundPadding: 28,
+    backgroundFeather: 72,
     studioLabel: 'The Studio',
     studioText: 'Kyoto / Zurich / Joshua Tree',
     philosophyLabel: 'Philosophy',
     philosophyText:
       'Reduction as a path to abundance. We create the space where spirit manifests.',
   },
+  donation: {
+    eyebrow: 'Sacred Offering',
+    heading: 'Manifest Compassion Through Dana',
+    kicker: 'Circle of Giving',
+    note: 'A small offering keeps the app alive, funds future teachings, and helps us share a quieter digital ritual with more people.',
+    panelNote:
+      'The act of giving is a practice in itself. Every contribution ripples outward, bringing light and peace to the Sangha.',
+    emailPlaceholder: 'Leave your email for the donation link',
+    customPlaceholder: 'Custom',
+    actionLabel: 'Continue',
+    successMessage: 'Your donation link is being prepared.',
+    supportNote:
+      'Your offering supports the maintenance of this digital sanctuary.',
+    layout: {
+      copyWidthPercent: 36,
+      topSpacing: 92,
+      gap: 40,
+      cardRadius: 28,
+    },
+    tiers: [
+      { amount: '0.99', label: '$0.99', description: 'Light a candle' },
+      { amount: '5.99', label: '$5.99', description: 'Open a gate' },
+      { amount: '12.99', label: '$12.99', description: 'Support a retreat' },
+    ],
+    gallery: defaultDonationGalleryItems,
+  },
   footer: {
-    titleLine1: 'Begin your',
-    titleLine2: 'quietude.',
+    titleLine1: 'Seek and',
+    titleLine2: 'it is given',
     ctaLabel: 'Join the circle',
-    copyrightLine1: '© 2024 SŪNYATĀ COLLECTIVE',
-    copyrightLine2: 'ALL RIGHTS RESERVED IN THE VOID',
+    copyrightLine1: '',
+    copyrightLine2: '',
   },
 }
 
@@ -304,9 +404,24 @@ export function sanitizeScene(scene) {
       ...snapshot.journal,
       items: normalizeJournalItems(snapshot.journal?.items),
     },
+    appShowcase: {
+      ...defaultScene.appShowcase,
+      ...snapshot.appShowcase,
+      phones: snapshot.appShowcase?.phones ?? defaultScene.appShowcase.phones,
+    },
     quote: {
       ...defaultScene.quote,
       ...snapshot.quote,
+    },
+    donation: {
+      ...defaultScene.donation,
+      ...snapshot.donation,
+      layout: {
+        ...defaultScene.donation.layout,
+        ...snapshot.donation?.layout,
+      },
+      tiers: snapshot.donation?.tiers ?? defaultScene.donation.tiers,
+      gallery: normalizeDonationGalleryItems(snapshot.donation?.gallery),
     },
   }
 }

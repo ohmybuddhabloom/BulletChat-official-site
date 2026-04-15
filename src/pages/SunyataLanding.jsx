@@ -10,18 +10,30 @@ import SunyataInterlude from '../components/sunyata/SunyataInterlude.jsx'
 import SunyataNav from '../components/sunyata/SunyataNav.jsx'
 import SunyataVisual from '../components/sunyata/SunyataVisual.jsx'
 import SunyataWildernessJournal from '../components/sunyata/SunyataWildernessJournal.jsx'
+import { SACRED_STORIES } from '../content/sacredStories.js'
 import {
   MIGRATION_FLAG_KEY,
   STORAGE_KEY,
   createRecoveredLegacyScene,
   createSceneSnapshot,
   isSceneDefaultLike,
+  normalizeDonationGalleryItems,
   normalizeJournalItems,
   normalizeLayoutSections,
   sanitizeScene,
 } from '../content/sunyata.js'
 import { loadProjectScene, saveProjectScene } from '../lib/editorSceneStore.js'
 import { isJournalAssetRef } from '../lib/journalAssetStore.js'
+import {
+  DEFAULT_RESPONSIVE_PROFILE,
+  getResponsiveProfileForWidth,
+  materializeResponsiveOffsets,
+  migrateLegacyPixelOffsets,
+  seedMobileResponsiveProfiles,
+  setProfiledFieldValue,
+  stripLegacyPixelOffsets,
+  useElementSize,
+} from '../lib/responsiveOffsets.js'
 
 function mergeScene(fallback, parsed) {
   const merged = {
@@ -66,13 +78,29 @@ function mergeScene(fallback, parsed) {
       ...fallback.quote,
       ...parsed.quote,
     },
+    appShowcase: {
+      ...fallback.appShowcase,
+      ...parsed.appShowcase,
+      phones: parsed.appShowcase?.phones ?? fallback.appShowcase.phones,
+    },
+    donation: {
+      ...fallback.donation,
+      ...parsed.donation,
+      layout: {
+        ...fallback.donation.layout,
+        ...parsed.donation?.layout,
+      },
+      tiers: parsed.donation?.tiers ?? fallback.donation.tiers,
+      gallery: normalizeDonationGalleryItems(parsed.donation?.gallery),
+    },
     footer: {
       ...fallback.footer,
       ...parsed.footer,
     },
   }
 
-  return sanitizeScene(merged)
+  const sanitized = sanitizeScene(merged)
+  return seedMobileResponsiveProfiles(sanitized) ?? sanitized
 }
 
 function loadInitialScene() {
@@ -88,9 +116,11 @@ function loadInitialScene() {
   if (!saved) {
     const recovered = createRecoveredLegacyScene()
 
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(recovered))
+    const seededRecovered = seedMobileResponsiveProfiles(recovered) ?? recovered
+
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(seededRecovered))
     window.localStorage.setItem(MIGRATION_FLAG_KEY, '1')
-    return recovered
+    return seededRecovered
   }
 
   try {
@@ -99,15 +129,16 @@ function loadInitialScene() {
 
     if (!migrationComplete && isSceneDefaultLike(merged)) {
       const recovered = createRecoveredLegacyScene()
+      const seededRecovered = seedMobileResponsiveProfiles(recovered) ?? recovered
 
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(recovered))
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(seededRecovered))
       window.localStorage.setItem(MIGRATION_FLAG_KEY, '1')
-      return recovered
+      return seededRecovered
     }
 
     return merged
   } catch {
-    return fallback
+    return seedMobileResponsiveProfiles(fallback) ?? fallback
   }
 }
 
@@ -131,6 +162,14 @@ function countSavedAssetRefs(scene) {
   return count
 }
 
+function getInitialViewportProfile() {
+  if (typeof window === 'undefined') {
+    return DEFAULT_RESPONSIVE_PROFILE
+  }
+
+  return getResponsiveProfileForWidth(window.innerWidth)
+}
+
 function SunyataLanding() {
   const cursorRef = useRef(null)
   const heroSectionRef = useRef(null)
@@ -139,10 +178,60 @@ function SunyataLanding() {
   const ghostLabelRef = useRef(null)
   const interludeSectionRef = useRef(null)
   const interludeChatBarRef = useRef(null)
+  const journalSectionRef = useRef(null)
+  const journalBodyRef = useRef(null)
   const visualSectionRef = useRef(null)
+  const visualAnchorRef = useRef(null)
   const [scene, setScene] = useState(loadInitialScene)
   const [editorOpen, setEditorOpen] = useState(false)
   const [projectSceneReady, setProjectSceneReady] = useState(false)
+  const [activeViewportProfile, setActiveViewportProfile] = useState(
+    getInitialViewportProfile,
+  )
+  const [editorResponsiveProfile, setEditorResponsiveProfile] = useState(
+    getInitialViewportProfile,
+  )
+  const heroSectionSize = useElementSize(heroSectionRef)
+  const interludeSectionSize = useElementSize(interludeSectionRef)
+  const journalBodySize = useElementSize(journalBodyRef)
+  const visualAnchorSize = useElementSize(visualAnchorRef)
+
+  const responsiveMetrics = useMemo(
+    () => ({
+      hero: heroSectionSize,
+      interlude: interludeSectionSize,
+      journal: journalBodySize,
+      quote: visualAnchorSize,
+    }),
+    [heroSectionSize, interludeSectionSize, journalBodySize, visualAnchorSize],
+  )
+
+  const persistedScene = useMemo(
+    () => stripLegacyPixelOffsets(scene),
+    [scene],
+  )
+
+  const renderedScene = useMemo(
+    () => materializeResponsiveOffsets(scene, responsiveMetrics, activeViewportProfile),
+    [activeViewportProfile, responsiveMetrics, scene],
+  )
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined
+    }
+
+    const updateProfile = () => {
+      setActiveViewportProfile(getResponsiveProfileForWidth(window.innerWidth))
+    }
+
+    updateProfile()
+    window.addEventListener('resize', updateProfile)
+
+    return () => {
+      window.removeEventListener('resize', updateProfile)
+    }
+  }, [])
 
   useEffect(() => {
     if (
@@ -237,8 +326,8 @@ function SunyataLanding() {
   }, [])
 
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(scene))
-  }, [scene])
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(persistedScene))
+  }, [persistedScene])
 
   useEffect(() => {
     let active = true
@@ -284,18 +373,34 @@ function SunyataLanding() {
   }, [])
 
   useEffect(() => {
+    setScene((current) => {
+      const migrated = migrateLegacyPixelOffsets(current, responsiveMetrics)
+      return migrated ?? current
+    })
+  }, [
+    responsiveMetrics,
+  ])
+
+  useEffect(() => {
+    setScene((current) => {
+      const seeded = seedMobileResponsiveProfiles(current)
+      return seeded ?? current
+    })
+  }, [])
+
+  useEffect(() => {
     if (!projectSceneReady) {
       return undefined
     }
 
     const timeoutId = window.setTimeout(() => {
-      saveProjectScene(scene).catch(() => {})
+      saveProjectScene(persistedScene).catch(() => {})
     }, 220)
 
     return () => {
       window.clearTimeout(timeoutId)
     }
-  }, [projectSceneReady, scene])
+  }, [persistedScene, projectSceneReady])
 
   const updateNavLogo = (value) => {
     setScene((current) => ({
@@ -319,23 +424,37 @@ function SunyataLanding() {
     }))
   }
 
-  const updateHero = (field, value) => {
+  const updateHero = (
+    field,
+    value,
+    profileAware = false,
+    profile = DEFAULT_RESPONSIVE_PROFILE,
+  ) => {
     setScene((current) => ({
       ...current,
-      hero: {
-        ...current.hero,
-        [field]: value,
-      },
+      hero: profileAware
+        ? setProfiledFieldValue(current.hero, field, value, profile)
+        : {
+            ...current.hero,
+            [field]: value,
+          },
     }))
   }
 
-  const updateInterlude = (field, value) => {
+  const updateInterlude = (
+    field,
+    value,
+    profileAware = false,
+    profile = DEFAULT_RESPONSIVE_PROFILE,
+  ) => {
     setScene((current) => ({
       ...current,
-      interlude: {
-        ...current.interlude,
-        [field]: value,
-      },
+      interlude: profileAware
+        ? setProfiledFieldValue(current.interlude, field, value, profile)
+        : {
+            ...current.interlude,
+            [field]: value,
+          },
     }))
   }
 
@@ -358,23 +477,42 @@ function SunyataLanding() {
     }))
   }
 
-  const updateVisual = (field, value) => {
+  const updateAppShowcase = (field, value) => {
     setScene((current) => ({
       ...current,
-      visual: {
-        ...current.visual,
+      appShowcase: {
+        ...current.appShowcase,
         [field]: value,
       },
     }))
   }
 
-  const updateJournal = (field, value) => {
+  const updateAppShowcasePhone = (index, field, value) => {
     setScene((current) => ({
       ...current,
-      journal: {
-        ...current.journal,
-        [field]: value,
+      appShowcase: {
+        ...current.appShowcase,
+        phones: current.appShowcase.phones.map((phone, phoneIndex) =>
+          phoneIndex === index ? { ...phone, [field]: value } : phone,
+        ),
       },
+    }))
+  }
+
+  const updateJournal = (
+    field,
+    value,
+    profileAware = false,
+    profile = DEFAULT_RESPONSIVE_PROFILE,
+  ) => {
+    setScene((current) => ({
+      ...current,
+      journal: profileAware
+        ? setProfiledFieldValue(current.journal, field, value, profile)
+        : {
+            ...current.journal,
+            [field]: value,
+          },
     }))
   }
 
@@ -415,13 +553,84 @@ function SunyataLanding() {
     }))
   }
 
-  const updateQuote = (field, value) => {
+  const updateVisual = (
+    field,
+    value,
+    profileAware = false,
+    profile = DEFAULT_RESPONSIVE_PROFILE,
+  ) => {
     setScene((current) => ({
       ...current,
-      quote: {
-        ...current.quote,
+      visual: profileAware
+        ? setProfiledFieldValue(current.visual, field, value, profile)
+        : {
+            ...current.visual,
+            [field]: value,
+          },
+    }))
+  }
+
+  const updateDonation = (field, value) => {
+    setScene((current) => ({
+      ...current,
+      donation: {
+        ...current.donation,
         [field]: value,
       },
+    }))
+  }
+
+  const updateDonationTier = (index, field, value) => {
+    setScene((current) => ({
+      ...current,
+      donation: {
+        ...current.donation,
+        tiers: current.donation.tiers.map((tier, tierIndex) =>
+          tierIndex === index ? { ...tier, [field]: value } : tier,
+        ),
+      },
+    }))
+  }
+
+  const updateDonationLayout = (field, value) => {
+    setScene((current) => ({
+      ...current,
+      donation: {
+        ...current.donation,
+        layout: {
+          ...current.donation.layout,
+          [field]: value,
+        },
+      },
+    }))
+  }
+
+  const updateDonationGalleryItem = (index, field, value) => {
+    setScene((current) => ({
+      ...current,
+      donation: {
+        ...current.donation,
+        gallery: current.donation.gallery.map((item, itemIndex) =>
+          itemIndex === index ? { ...item, [field]: value } : item,
+        ),
+      },
+    }))
+  }
+
+  const updateQuote = (
+    field,
+    value,
+    profileAware = false,
+    profile = DEFAULT_RESPONSIVE_PROFILE,
+  ) => {
+    setScene((current) => ({
+      ...current,
+      quote: profileAware
+        ? setProfiledFieldValue(current.quote, field, value, profile)
+        : {
+            ...current.quote,
+            [field]: value,
+          },
     }))
   }
 
@@ -479,7 +688,8 @@ function SunyataLanding() {
   }
 
   const resetScene = () => {
-    setScene(createSceneSnapshot())
+    const freshScene = createSceneSnapshot()
+    setScene(seedMobileResponsiveProfiles(freshScene) ?? freshScene)
   }
 
   const interludeVisible = scene.layout.sections.some(
@@ -493,13 +703,13 @@ function SunyataLanding() {
         sectionRef={heroSectionRef}
         heroTitleRef={heroTitleRef}
         devotionalRef={devotionalRef}
-        hero={scene.hero}
+        hero={renderedScene.hero}
         media={
           <ScrollVideoBackground
             heroSectionRef={heroSectionRef}
             endSectionRef={interludeVisible ? interludeSectionRef : visualSectionRef}
             stopTargetRef={interludeVisible ? interludeChatBarRef : null}
-            rangeKey={`${scene.interlude.chatX}:${scene.interlude.chatY}:${scene.buddha.stopViewportY}:${scene.layout.sections.map((section) => `${section.id}:${section.visible}`).join('|')}`}
+            rangeKey={`${renderedScene.interlude.chatX}:${renderedScene.interlude.chatY}:${scene.buddha.stopViewportY}:${scene.layout.sections.map((section) => `${section.id}:${section.visible}`).join('|')}`}
             scrollEndId="dialogue"
             buddha={scene.buddha}
           />
@@ -514,19 +724,33 @@ function SunyataLanding() {
           key="interlude"
           sectionRef={interludeSectionRef}
           chatBarRef={interludeChatBarRef}
-          interlude={scene.interlude}
+          interlude={renderedScene.interlude}
         />
       ),
-      journal: <SunyataWildernessJournal key="journal" journal={scene.journal} />,
-      cards: <SunyataCards key="cards" cards={scene.cards} />,
+      journal: (
+        <SunyataWildernessJournal
+          key="journal"
+          bodyRef={journalBodyRef}
+          sectionRef={journalSectionRef}
+          journal={renderedScene.journal}
+        />
+      ),
+      cards: (
+        <SunyataCards
+          key="cards"
+          cards={scene.cards}
+          showcase={scene.appShowcase}
+        />
+      ),
       visual: (
         <SunyataVisual
           key="visual"
           sectionRef={visualSectionRef}
+          visualAnchorRef={visualAnchorRef}
           ghostLabelRef={ghostLabelRef}
-          visual={scene.visual}
-          quote={scene.quote}
-          quoteThemeColor={scene.journal.theme.overlayColor ?? scene.journal.theme.base}
+          visual={renderedScene.visual}
+          quote={renderedScene.quote}
+          donation={scene.donation}
         />
       ),
       footer: <SunyataFooter key="footer" footer={scene.footer} />,
@@ -539,15 +763,18 @@ function SunyataLanding() {
       .filter(Boolean)
   }, [
     interludeVisible,
+    renderedScene.hero,
+    renderedScene.interlude,
+    renderedScene.journal,
+    renderedScene.quote,
+    renderedScene.visual,
     scene.buddha,
     scene.cards,
+    scene.donation,
     scene.footer,
-    scene.hero,
-    scene.interlude,
     scene.journal,
     scene.layout.sections,
-    scene.quote,
-    scene.visual,
+    scene.appShowcase,
   ])
 
   return (
@@ -555,10 +782,11 @@ function SunyataLanding() {
       <div ref={cursorRef} className="sunyata-cursor" aria-hidden="true" />
       <NoiseOverlay />
       <div className="void-bg" aria-hidden="true" />
-
       <SunyataEditor
         editorOpen={editorOpen}
         onToggle={() => setEditorOpen((current) => !current)}
+        responsiveProfile={editorResponsiveProfile}
+        onResponsiveProfileChange={setEditorResponsiveProfile}
         scene={scene}
         updateNavLogo={updateNavLogo}
         updateNavLink={updateNavLink}
@@ -566,11 +794,17 @@ function SunyataLanding() {
         updateInterlude={updateInterlude}
         updateBuddha={updateBuddha}
         updateCard={updateCard}
+        updateAppShowcase={updateAppShowcase}
+        updateAppShowcasePhone={updateAppShowcasePhone}
         updateJournal={updateJournal}
         updateJournalLink={updateJournalLink}
         updateJournalTheme={updateJournalTheme}
         updateJournalItem={updateJournalItem}
         updateVisual={updateVisual}
+        updateDonation={updateDonation}
+        updateDonationLayout={updateDonationLayout}
+        updateDonationTier={updateDonationTier}
+        updateDonationGalleryItem={updateDonationGalleryItem}
         updateQuote={updateQuote}
         updateFooter={updateFooter}
         updateSectionOrder={updateSectionOrder}
@@ -579,7 +813,7 @@ function SunyataLanding() {
       />
 
       <div className="sunyata-preview">
-        <SunyataNav nav={scene.nav} />
+        <SunyataNav nav={scene.nav} stories={SACRED_STORIES} />
         {orderedSections}
       </div>
     </main>

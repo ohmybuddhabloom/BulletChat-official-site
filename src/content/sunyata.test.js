@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   createSceneSnapshot,
+  normalizeDonationGalleryItems,
   normalizeJournalItems,
   normalizeLayoutSections,
 } from './sunyata.js'
@@ -10,7 +11,10 @@ describe('sunyata content defaults', () => {
     const scene = createSceneSnapshot()
 
     expect(scene.nav.logo).toBe('Sūnyatā')
-    expect(scene.footer.copyrightLine1).toBe('© 2024 SŪNYATĀ COLLECTIVE')
+    expect(scene.footer.titleLine1).toBe('Seek and')
+    expect(scene.footer.titleLine2).toBe('it is given')
+    expect(scene.footer.copyrightLine1).toBe('')
+    expect(scene.footer.copyrightLine2).toBe('')
     expect(scene.layout.sections).toEqual([
       { id: 'hero', visible: true },
       { id: 'interlude', visible: true },
@@ -20,6 +24,17 @@ describe('sunyata content defaults', () => {
       { id: 'footer', visible: true },
       { id: 'archive', visible: true },
     ])
+    expect(scene.appShowcase.title).toBe('The Digital Sanctuary.')
+    expect(scene.appShowcase.phones).toHaveLength(3)
+    expect(scene.donation.gallery).toHaveLength(2)
+    expect(scene.donation.gallery[0].title).toBe('Bodhi Seed Mala')
+    expect(scene.donation.gallery[1].title).toBe('Lapis Wisdom')
+    expect(scene.donation.layout).toMatchObject({
+      copyWidthPercent: 36,
+      topSpacing: 92,
+      gap: 40,
+      cardRadius: 28,
+    })
   })
 
   it('normalizes saved section layouts, preserves explicit visibility, and appends missing sections', () => {
@@ -39,6 +54,37 @@ describe('sunyata content defaults', () => {
       { id: 'footer', visible: true },
       { id: 'archive', visible: true },
     ])
+  })
+})
+
+describe('normalizeDonationGalleryItems', () => {
+  it('keeps only the supported two donation gallery cards and fills missing fields', () => {
+    const normalized = normalizeDonationGalleryItems([
+      {
+        title: 'Custom One',
+        note: 'Note One',
+        overlay: 'Overlay One',
+        imageSrc: '/custom/one.png',
+      },
+      {
+        title: 'Custom Two',
+      },
+      {
+        title: 'Should Be Dropped',
+      },
+    ])
+
+    expect(normalized).toHaveLength(2)
+    expect(normalized[0]).toMatchObject({
+      title: 'Custom One',
+      note: 'Note One',
+      overlay: 'Overlay One',
+      imageSrc: '/custom/one.png',
+    })
+    expect(normalized[1]).toMatchObject({
+      title: 'Custom Two',
+      note: 'Sourced from high-altitude veins',
+    })
   })
 })
 

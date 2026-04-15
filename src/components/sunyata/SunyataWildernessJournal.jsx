@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { resolveJournalImageSource } from '../../lib/journalAssetStore.js'
+import { getStoryHref } from '../../content/sacredStories.js'
 
 const TEXT_SWAP_DELAY = 220
 const ANIMATION_LOCK_MS = 1120
@@ -47,7 +48,11 @@ function WildernessCard({ item, index, isActive, state, style, onClick }) {
   )
 }
 
-function SunyataWildernessJournal({ journal }) {
+function SunyataWildernessJournal({
+  journal,
+  sectionRef = null,
+  bodyRef = null,
+}) {
   const categories = useMemo(() => journal.items ?? [], [journal.items])
   const totalCategories = categories.length
   const [resolvedCategories, setResolvedCategories] = useState(categories)
@@ -69,6 +74,11 @@ function SunyataWildernessJournal({ journal }) {
 
   const currentCategory =
     resolvedCategories[safeDisplayIndex] ?? resolvedCategories[0]
+  const currentStorySlug = currentCategory?.slug
+    ? currentCategory.slug
+    : ['children-of-scripture', 'journey-of-amethyst', 'a-life-in-thangka'][
+        safeDisplayIndex
+      ]
 
   useEffect(() => {
     let active = true
@@ -256,6 +266,7 @@ function SunyataWildernessJournal({ journal }) {
 
   return (
     <section
+      ref={sectionRef}
       className="wilderness-journal-section"
       data-testid="wilderness-journal-section"
       aria-label="Wilderness Journal"
@@ -291,7 +302,7 @@ function SunyataWildernessJournal({ journal }) {
       <div className="wilderness-gradient veil-left" aria-hidden="true" />
       <div className="wilderness-gradient veil-bottom" aria-hidden="true" />
 
-      <div className="wilderness-body">
+      <div ref={bodyRef} className="wilderness-body">
         <div
           className="wilderness-copy"
           data-testid="journal-copy-block"
@@ -314,9 +325,12 @@ function SunyataWildernessJournal({ journal }) {
           </p>
 
           <div className="wilderness-actions">
-            <button type="button" className="wilderness-cta">
+            <a
+              className="wilderness-cta"
+              href={getStoryHref(currentStorySlug)}
+            >
               {journal.actionLabel}
-            </button>
+            </a>
             <span className="wilderness-rule" aria-hidden="true" />
           </div>
         </div>

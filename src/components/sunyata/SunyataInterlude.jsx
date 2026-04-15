@@ -1,7 +1,48 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 function SunyataInterlude({ sectionRef, chatBarRef, interlude }) {
   const [message, setMessage] = useState('')
+  const [exchanges, setExchanges] = useState([])
+  const timersRef = useRef([])
+
+  useEffect(() => {
+    return () => {
+      timersRef.current.forEach((timerId) => window.clearTimeout(timerId))
+      timersRef.current = []
+    }
+  }, [])
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    const prompt = message.trim()
+
+    if (!prompt) {
+      return
+    }
+
+    const exchangeId = `${Date.now()}-${Math.random().toString(16).slice(2)}`
+
+    setExchanges((current) => [
+      ...current.slice(-2),
+      {
+        id: exchangeId,
+        prompt,
+        responded: false,
+      },
+    ])
+    setMessage('')
+
+    const timerId = window.setTimeout(() => {
+      setExchanges((current) =>
+        current.map((item) =>
+          item.id === exchangeId ? { ...item, responded: true } : item,
+        ),
+      )
+    }, interlude.responseDelayMs ?? 420)
+
+    timersRef.current.push(timerId)
+  }
 
   return (
     <section
@@ -23,6 +64,26 @@ function SunyataInterlude({ sectionRef, chatBarRef, interlude }) {
         <p className="interlude-note">{interlude.note}</p>
       </div>
 
+      <div className="interlude-thread" data-testid="interlude-thread">
+        {exchanges.map((exchange) => (
+          <div className="interlude-exchange" key={exchange.id}>
+            <article className="interlude-bubble is-user">
+              <span className="interlude-bubble-label">{interlude.actionLabel}</span>
+              <p>{exchange.prompt}</p>
+            </article>
+
+            {exchange.responded ? (
+              <article className="interlude-bubble is-buddha">
+                <span className="interlude-bubble-label">
+                  {interlude.responseLabel}
+                </span>
+                <p>{interlude.responseText}</p>
+              </article>
+            ) : null}
+          </div>
+        ))}
+      </div>
+
       <form
         ref={chatBarRef}
         className="interlude-chat-bar"
@@ -31,7 +92,7 @@ function SunyataInterlude({ sectionRef, chatBarRef, interlude }) {
         style={{
           transform: `translate3d(${interlude.chatX ?? 0}px, ${interlude.chatY ?? 0}px, 0px)`,
         }}
-        onSubmit={(event) => event.preventDefault()}
+        onSubmit={handleSubmit}
       >
         <label className="sr-only" htmlFor="buddha-question">
           Ask Buddha a question
@@ -44,7 +105,7 @@ function SunyataInterlude({ sectionRef, chatBarRef, interlude }) {
           placeholder={interlude.placeholder}
           onChange={(event) => setMessage(event.target.value)}
         />
-        <button type="submit" className="interlude-submit">
+        <button type="submit" className="interlude-submit" disabled={!message.trim()}>
           {interlude.actionLabel}
         </button>
       </form>

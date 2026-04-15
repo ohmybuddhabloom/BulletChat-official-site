@@ -61,4 +61,15 @@ describe('SunyataWildernessJournal', () => {
     expect(cards[1]).toHaveClass('is-glass')
     expect(cards[2]).toHaveClass('is-glass')
   })
+
+  it('routes the Read Narrative action to the active sacred story', () => {
+    const scene = createSceneSnapshot()
+
+    render(<SunyataWildernessJournal journal={scene.journal} />)
+
+    expect(screen.getByRole('link', { name: 'Read Narrative' })).toHaveAttribute(
+      'href',
+      '/?story=children-of-scripture',
+    )
+  })
 })

@@ -9,6 +9,9 @@ const projectRoot = fileURLToPath(new URL('./', import.meta.url))
 const editorAssetsDir = path.join(projectRoot, 'public', 'editor-assets')
 const editorStateDir = path.join(projectRoot, 'public', 'editor-state')
 const editorSceneFile = path.join(editorStateDir, 'scene.json')
+const distEditorAssetsDir = path.join(projectRoot, 'dist', 'editor-assets')
+const distEditorStateDir = path.join(projectRoot, 'dist', 'editor-state')
+const distEditorSceneFile = path.join(distEditorStateDir, 'scene.json')
 const editorSyncTargets = ['public/editor-assets', 'public/editor-state']
 
 function sanitizeFileName(fileName) {
@@ -20,6 +23,14 @@ function sanitizeFileName(fileName) {
   const safeExtension = (parsed.ext || '.png').replace(/[^.a-zA-Z0-9]+/g, '')
 
   return `${safeName}${safeExtension || '.png'}`
+}
+
+function writeMirroredFile(primaryPath, mirroredPath, contents) {
+  fs.mkdirSync(path.dirname(primaryPath), { recursive: true })
+  fs.writeFileSync(primaryPath, contents)
+
+  fs.mkdirSync(path.dirname(mirroredPath), { recursive: true })
+  fs.writeFileSync(mirroredPath, contents)
 }
 
 function runGitCommand(args) {
@@ -123,8 +134,11 @@ function createEditorAssetHandler(scheduleGitSync) {
         const safeFileName = sanitizeFileName(name)
         const finalFileName = `${timeStamp}-${safeFileName}`
 
-        fs.mkdirSync(editorAssetsDir, { recursive: true })
-        fs.writeFileSync(path.join(editorAssetsDir, finalFileName), fileBuffer)
+        writeMirroredFile(
+          path.join(editorAssetsDir, finalFileName),
+          path.join(distEditorAssetsDir, finalFileName),
+          fileBuffer,
+        )
         scheduleGitSync()
 
         res.statusCode = 200
@@ -164,8 +178,11 @@ function createEditorSceneHandler(scheduleGitSync) {
       try {
         const payload = JSON.parse(rawBody || '{}')
 
-        fs.mkdirSync(editorStateDir, { recursive: true })
-        fs.writeFileSync(editorSceneFile, JSON.stringify(payload, null, 2))
+        writeMirroredFile(
+          editorSceneFile,
+          distEditorSceneFile,
+          JSON.stringify(payload, null, 2),
+        )
         scheduleGitSync()
 
         res.statusCode = 200

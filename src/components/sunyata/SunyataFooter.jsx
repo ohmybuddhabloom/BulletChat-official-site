@@ -12,13 +12,6 @@ function SunyataFooter({ footer }) {
         </a>
       </div>
 
-      <div className="footer-right">
-        <p>
-          {footer.copyrightLine1}
-          <br />
-          {footer.copyrightLine2}
-        </p>
-      </div>
     </footer>
   )
 }

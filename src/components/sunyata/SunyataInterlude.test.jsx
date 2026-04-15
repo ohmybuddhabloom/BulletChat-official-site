@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import SunyataInterlude from './SunyataInterlude.jsx'
 import { createSceneSnapshot } from '../../content/sunyata.js'
@@ -25,6 +25,36 @@ describe('SunyataInterlude', () => {
 
     expect(screen.getByTestId('interlude-chat-bar')).toHaveStyle({
       transform: 'translate3d(-26px, 36px, 0px)',
+    })
+  })
+
+  it('submits an offered message and reveals the fixed buddha reply on the right side', async () => {
+    const scene = createSceneSnapshot()
+    scene.interlude.responseLabel = 'Buddha replies'
+    scene.interlude.responseText =
+      'Your question has already begun to answer itself in the silence.'
+    scene.interlude.responseDelayMs = 1
+
+    render(
+      <SunyataInterlude
+        sectionRef={null}
+        chatBarRef={null}
+        interlude={scene.interlude}
+      />,
+    )
+
+    fireEvent.change(screen.getByLabelText('Ask Buddha a question'), {
+      target: { value: 'How do I move through uncertainty?' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: scene.interlude.actionLabel }))
+
+    expect(
+      screen.getByText('How do I move through uncertainty?'),
+    ).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(screen.getByText(scene.interlude.responseLabel)).toBeInTheDocument()
+      expect(screen.getByText(scene.interlude.responseText)).toBeInTheDocument()
     })
   })
 })
