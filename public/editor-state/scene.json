@@ -90,6 +90,9 @@
     "responseLabel": "Buddha replies",
     "responseText": "Offer the question gently. The next clear step usually arrives before the full answer does.",
     "responseDelayMs": 420,
+    "fadeDurationMs": 320,
+    "replyX": 0,
+    "replyY": 0,
     "profiles": {
       "mobile-sm": {
         "textXPercent": 0,
@@ -213,7 +216,7 @@
     },
     "items": [
       {
-        "slug": "children-of-scripture",
+        "slug": "a-life-in-thangka",
         "title": "Life in Thangka",
         "tag": "Sacred Art",
         "description": "Prakash Khadgi has devoted his life to Thangka, carrying a sacred artistic tradition into the present with quiet conviction.",
@@ -229,7 +232,7 @@
         "backgroundUrl": "/journal/card-2-background.jpg"
       },
       {
-        "slug": "a-life-in-thangka",
+        "slug": "children-of-scripture",
         "title": "Children of Scripture",
         "tag": "cripture & Childhood",
         "description": "In a quiet courtyard in Kathmandu, children have spent twenty years writing their way toward focus, calm, and a different future.",
