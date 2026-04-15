@@ -1,55 +1,55 @@
-# BuddhaChat Official Site
+# BuddhaChat 官网
 
-Official landing page for [BuddhaChat](https://www.buddhachat.online/) — a contemplative AI experience rooted in Buddhist wisdom.
+[BuddhaChat](https://www.buddhachat.online/) 的官方落地页——一个根植于佛教智慧的冥想式 AI 体验。
 
-## Tech Stack
+## 技术栈
 
 - **React 19** + **Vite 8**
-- Scroll-scrubbed video hero
-- 3D card carousel with physics-based momentum
-- Responsive layout with profile-aware offset system
-- No third-party animation libraries
+- 滚动驱动视频主视觉（scroll-scrubbed video hero）
+- 带物理动量的 3D 卡片轮播
+- 响应式布局，基于 profile 的偏移量系统
+- 无第三方动画库
 
-## Development
+## 开发
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Build
+## 构建
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## Testing
+## 测试
 
 ```bash
 npm test
 ```
 
-## Project Structure
+## 目录结构
 
 ```
 src/
-├── components/sunyata/   # All page section components
-├── content/              # Scene configuration and story data
-├── lib/                  # Scroll math, responsive offsets, asset store
+├── components/sunyata/   # 所有页面区块组件
+├── content/              # 场景配置与故事数据
+├── lib/                  # 滚动数学、响应式偏移、资源存储
 ├── pages/
-│   ├── SunyataLanding.jsx   # Main landing page
-│   └── StoryPage.jsx        # Story viewer (?story= query param)
-└── index.css             # Global styles and animations
+│   ├── SunyataLanding.jsx   # 主落地页
+│   └── StoryPage.jsx        # 故事阅读页（?story= 查询参数触发）
+└── index.css             # 全局样式与动画
 ```
 
-## Editor Mode
+## 编辑器模式
 
-Append `?edit=1` to the URL to enable the visual scene editor for adjusting layout, positions, and content.
+URL 末尾添加 `?edit=1` 可开启可视化场景编辑器，用于调整布局、位置和内容。
 
-## Performance Notes
+## 性能说明
 
-- Archive carousel RAF loop is gated behind `IntersectionObserver` — pauses when off-screen
-- Scroll-scrubbed video uses an easing loop with a `1/30s` settle threshold to minimize frame decodes
-- Noise overlay uses a CSS `background-image` data URI (rasterized once) instead of live SVG `feTurbulence`
-- Resize event handler is debounced at 150ms to prevent cascading re-renders
+- 轮播区域的 RAF 循环通过 `IntersectionObserver` 门控——滚出视口时自动暂停
+- 滚动视频使用 `1/30s` 缓动收敛阈值，大幅减少视频帧解码次数
+- 噪点遮罩层使用 CSS `background-image` data URI（一次性光栅化），取代实时 SVG `feTurbulence` 计算
+- `resize` 事件处理器加了 150ms 防抖，避免窗口拖动时的级联重渲染
