@@ -8,7 +8,7 @@ import {
 } from '../../lib/scrollVideo.js'
 
 const TIME_EASING = 0.18
-const MIN_TIME_DELTA = 1 / 30
+const MIN_TIME_DELTA = 1 / 120
 
 function waitForVideoReady(video) {
   if (video.readyState >= 3) {
