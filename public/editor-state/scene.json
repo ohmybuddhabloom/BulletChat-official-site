@@ -286,11 +286,16 @@
     "yPercent": -27.6
   },
   "donation": {
+    "eyebrow": "Sacred Offering",
+    "heading": "Manifest Compassion Through Dana",
     "kicker": "Circle of Giving",
     "note": "A small offering keeps the app alive, funds future teachings, and helps us share a quieter digital ritual with more people.",
+    "panelNote": "The act of giving is a practice in itself. Every contribution ripples outward, bringing light and peace to the Sangha.",
     "emailPlaceholder": "Leave your email for the donation link",
+    "customPlaceholder": "Custom",
     "actionLabel": "Continue",
     "successMessage": "Your donation link is being prepared.",
+    "supportNote": "Your offering supports the maintenance of this digital sanctuary.",
     "tiers": [
       {
         "amount": "0.99",
@@ -306,6 +311,22 @@
         "amount": "12.99",
         "label": "$12.99",
         "description": "Support a retreat"
+      }
+    ],
+    "gallery": [
+      {
+        "title": "Bodhi Seed Mala",
+        "note": "108 beads of traditional wisdom",
+        "overlay": "Sandalwood Essence",
+        "imageSrc": "https://lh3.googleusercontent.com/aida-public/AB6AXuAqRYy9OXZqtyYPJV4l7ecMdTIomNUoaQBw1MVd0Thoo4aSAy1l1Xq1xvfnA7BSZnMCqZ-BjwRu_ZShfpIi55F6RzFt8CIGx-WFLdlDTNV9wit3KlhjZCx9jcCFBBzUsy2Na6YY5vVYzx9QkD0I0uM4-jjBfT8V0Nv1rrqg-CogNElgl52l_wceJGU32knzKZ6QFp0G6tAs35bs8k5UU6qG8XAyCG9Cl7RzDYLn4cZNQLBTI3rjd8mSErJR7xM4J0fP8fdg9Vk7l1k",
+        "imageAlt": "Close-up of sacred sandalwood prayer beads on a weathered stone surface with soft morning light and lens flare"
+      },
+      {
+        "title": "Lapis Wisdom",
+        "note": "Sourced from high-altitude veins",
+        "overlay": "Celestial Vision",
+        "imageSrc": "https://lh3.googleusercontent.com/aida-public/AB6AXuC35x9I823IWO30P2wbJTc6RI_cfVSWQF1gKLRPQSeuf70dF78tPczfn-zDB9hyG_O5e1iaHRsBio7IhAGxfqKvaLKXMaUfVW3ZhId1kiikyn3mgegl3mcpSbBxSu4maVG_LMfwLW72dwBcPOjbBEN28d1V2QcuF-pniE4EHz94ocBpdb-QHuhRFr0CLWLi1Xn6pDxDWHYfPhMmiPK1_Hzd5Y2XQOPXIzwP7dCJwIJ9AWz7wkfOQYzWyAw-K-p1-N5RVB_cAnpqjtU",
+        "imageAlt": "Elegant wrist wearing a lapis lazuli prayer bracelet with gold accents against a soft blurred botanical background"
       }
     ]
   },
