@@ -183,6 +183,9 @@ function SunyataLanding() {
   const visualSectionRef = useRef(null)
   const visualAnchorRef = useRef(null)
   const [scene, setScene] = useState(loadInitialScene)
+  const [editorEnabled] = useState(
+    () => new URLSearchParams(window.location.search).get('edit') === '1',
+  )
   const [editorOpen, setEditorOpen] = useState(false)
   const [projectSceneReady, setProjectSceneReady] = useState(false)
   const [activeViewportProfile, setActiveViewportProfile] = useState(
@@ -778,11 +781,11 @@ function SunyataLanding() {
   ])
 
   return (
-    <main className={`sunyata-page${editorOpen ? ' editor-open' : ''}`}>
+    <main className={`sunyata-page${editorEnabled && editorOpen ? ' editor-open' : ''}`}>
       <div ref={cursorRef} className="sunyata-cursor" aria-hidden="true" />
       <NoiseOverlay />
       <div className="void-bg" aria-hidden="true" />
-      <SunyataEditor
+      {editorEnabled && <SunyataEditor
         editorOpen={editorOpen}
         onToggle={() => setEditorOpen((current) => !current)}
         responsiveProfile={editorResponsiveProfile}
@@ -810,7 +813,7 @@ function SunyataLanding() {
         updateSectionOrder={updateSectionOrder}
         updateSectionVisibility={updateSectionVisibility}
         onReset={resetScene}
-      />
+      />}
 
       <div className="sunyata-preview">
         <SunyataNav nav={scene.nav} stories={SACRED_STORIES} />

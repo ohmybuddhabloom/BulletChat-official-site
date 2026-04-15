@@ -64,6 +64,8 @@ a {
   filter: blur(80px);
   opacity: 0.7;
   animation: breathe 20s infinite alternate var(--transition);
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .sunyata-cursor {
@@ -523,7 +525,7 @@ a {
   font-weight: 400;
   line-height: 1.1;
   filter: blur(0.5px);
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
   animation: text-glow-static 4s infinite alternate;
 }
 
