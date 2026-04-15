@@ -26,6 +26,7 @@ function buildImageSrc(id) {
 }
 
 function SunyataArchive() {
+  const sectionRef = useRef(null)
   const cardRefs = useRef([])
   const rafRef = useRef(0)
   const currentScrollRef = useRef(0)
@@ -34,6 +35,7 @@ function SunyataArchive() {
   const isDraggingRef = useRef(false)
   const lastPointerXRef = useRef(0)
   const activeStatesRef = useRef(new Array(imageIds.length).fill(false))
+  const isVisibleRef = useRef(false)
   const [overlayVisible, setOverlayVisible] = useState(true)
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
@@ -41,14 +43,19 @@ function SunyataArchive() {
 
   useEffect(() => {
     const animate = () => {
+      if (!isVisibleRef.current) {
+        rafRef.current = 0
+        return
+      }
+
       if (!isDraggingRef.current) {
         targetScrollRef.current += velocityRef.current
         velocityRef.current *= 0.96
         targetScrollRef.current += AUTO_SCROLL_SPEED
       }
 
-      currentScrollRef.current +=
-        (targetScrollRef.current - currentScrollRef.current) * 0.08
+      const diff = targetScrollRef.current - currentScrollRef.current
+      currentScrollRef.current += diff * 0.08
 
       const totalSetWidth = imageIds.length * CARD_WIDTH
 
@@ -93,16 +100,37 @@ function SunyataArchive() {
       rafRef.current = requestAnimationFrame(animate)
     }
 
+    const startLoop = () => {
+      if (!rafRef.current) {
+        rafRef.current = requestAnimationFrame(animate)
+      }
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0]
+        isVisibleRef.current = entry.isIntersecting
+        if (entry.isIntersecting) {
+          startLoop()
+        }
+      },
+      { threshold: 0 },
+    )
+
     const overlayTimer = window.setTimeout(() => {
       setOverlayVisible(false)
-      rafRef.current = requestAnimationFrame(animate)
+      if (sectionRef.current) {
+        observer.observe(sectionRef.current)
+      }
     }, 1500)
 
     return () => {
       window.clearTimeout(overlayTimer)
+      observer.disconnect()
 
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current)
+        rafRef.current = 0
       }
     }
   }, [])
@@ -149,7 +177,7 @@ function SunyataArchive() {
   }
 
   return (
-    <section className="archive-section" data-testid="archive-section">
+    <section ref={sectionRef} className="archive-section" data-testid="archive-section">
       <header className="archive-header">
         <div className="archive-brand">LUMIERE ARCHIVE</div>
         <div className="archive-meta">

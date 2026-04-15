@@ -230,10 +230,18 @@ function SunyataLanding() {
     }
 
     updateProfile()
-    window.addEventListener('resize', updateProfile)
+
+    let debounceTimer = 0
+    const handleResize = () => {
+      window.clearTimeout(debounceTimer)
+      debounceTimer = window.setTimeout(updateProfile, 150)
+    }
+
+    window.addEventListener('resize', handleResize)
 
     return () => {
-      window.removeEventListener('resize', updateProfile)
+      window.clearTimeout(debounceTimer)
+      window.removeEventListener('resize', handleResize)
     }
   }, [])
 
