@@ -2874,12 +2874,18 @@ a {
   }
 
   .hero-right {
-    height: clamp(220px, 36vh, 340px);
-    margin-top: auto;
+    height: clamp(260px, 42vh, 400px);
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .devotional-space {
+    justify-content: center !important;
+    align-items: center !important;
   }
 
   .hero-scroll-figure {
-    width: min(84vw, 360px);
+    width: min(72vw, 320px);
     min-width: 0;
   }
 

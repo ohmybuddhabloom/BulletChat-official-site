@@ -5,7 +5,7 @@ import { submitChatPrompt } from '../../lib/siteApi.js'
 function SunyataInterlude({ sectionRef, chatBarRef, interlude }) {
   const [message, setMessage] = useState('')
   const [activeExchange, setActiveExchange] = useState(null)
-  const [submitError, setSubmitError] = useState('')
+  const [_submitError, setSubmitError] = useState('')
   const timersRef = useRef([])
 
   useEffect(() => {

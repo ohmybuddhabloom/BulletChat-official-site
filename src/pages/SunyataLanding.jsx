@@ -377,6 +377,7 @@ function SunyataLanding() {
   }, [])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setScene((current) => {
       const migrated = migrateLegacyPixelOffsets(current, responsiveMetrics)
       return migrated ?? current
@@ -386,6 +387,7 @@ function SunyataLanding() {
   ])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setScene((current) => {
       const seeded = seedMobileResponsiveProfiles(current)
       return seeded ?? current
@@ -770,6 +772,7 @@ function SunyataLanding() {
       .map((section) => sectionMap[section.id])
       .filter(Boolean)
   }, [
+    activeViewportProfile,
     interludeVisible,
     renderedScene.hero,
     renderedScene.interlude,

@@ -527,6 +527,7 @@ export function useElementSize(ref) {
     const element = ref.current
 
     if (!element) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSize((current) =>
         current.width === 0 && current.height === 0 ? current : EMPTY_SIZE,
       )
