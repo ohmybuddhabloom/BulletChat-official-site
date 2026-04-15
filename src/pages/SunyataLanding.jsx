@@ -26,6 +26,7 @@ import { loadProjectScene, saveProjectScene } from '../lib/editorSceneStore.js'
 import { isJournalAssetRef } from '../lib/journalAssetStore.js'
 import {
   DEFAULT_RESPONSIVE_PROFILE,
+  MOBILE_RESPONSIVE_PROFILES,
   getResponsiveProfileForWidth,
   materializeResponsiveOffsets,
   migrateLegacyPixelOffsets,
@@ -714,7 +715,11 @@ function SunyataLanding() {
             stopTargetRef={interludeVisible ? interludeChatBarRef : null}
             rangeKey={`${renderedScene.interlude.chatX}:${renderedScene.interlude.chatY}:${scene.buddha.stopViewportY}:${scene.layout.sections.map((section) => `${section.id}:${section.visible}`).join('|')}`}
             scrollEndId="dialogue"
-            buddha={scene.buddha}
+            buddha={
+              MOBILE_RESPONSIVE_PROFILES.includes(activeViewportProfile)
+                ? { ...scene.buddha, x: 0 }
+                : scene.buddha
+            }
           />
         }
       />
