@@ -91,8 +91,8 @@
     "responseText": "Offer the question gently. The next clear step usually arrives before the full answer does.",
     "responseDelayMs": 420,
     "fadeDurationMs": 320,
-    "replyX": 0,
-    "replyY": 0,
+    "replyX": 160,
+    "replyY": -33,
     "profiles": {
       "mobile-sm": {
         "textXPercent": 0,
@@ -114,7 +114,7 @@
       }
     },
     "textXPercent": 6.313,
-    "textYPercent": -13.733,
+    "textYPercent": -12.1,
     "chatXPercent": -1,
     "chatYPercent": 4.4
   },
