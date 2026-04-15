@@ -233,7 +233,7 @@
     "imageSrc": "/editor-assets/2026-04-13T04-02-04-178Z-kling_20260412_-_-_-1__3298_0.png",
     "imageAlt": "Abstract Light",
     "imageWidth": 77,
-    "imageX": 15.9,
+    "imageX": 0,
     "ghostRight": -1,
     "ghostBottom": 10,
     "profiles": {
@@ -296,6 +296,12 @@
     "actionLabel": "Continue",
     "successMessage": "Your donation link is being prepared.",
     "supportNote": "Your offering supports the maintenance of this digital sanctuary.",
+    "layout": {
+      "copyWidthPercent": 36,
+      "topSpacing": 92,
+      "gap": 40,
+      "cardRadius": 28
+    },
     "tiers": [
       {
         "amount": "0.99",
