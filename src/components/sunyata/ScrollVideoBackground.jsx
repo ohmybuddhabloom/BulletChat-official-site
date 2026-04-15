@@ -16,7 +16,16 @@ function waitForVideoReady(video) {
   }
 
   return new Promise((resolve) => {
-    video.addEventListener('canplay', resolve, { once: true })
+    const onReady = () => {
+      window.clearTimeout(timeoutId)
+      resolve()
+    }
+    video.addEventListener('canplay', onReady, { once: true })
+    // iOS fallback: canplay may not fire without user interaction
+    const timeoutId = window.setTimeout(() => {
+      video.removeEventListener('canplay', onReady)
+      resolve()
+    }, 4000)
   })
 }
 

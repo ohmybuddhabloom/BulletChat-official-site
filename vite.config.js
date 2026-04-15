@@ -244,6 +244,12 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), editorAssetsPlugin()],
+    server: {
+      allowedHosts: true,
+    },
+    preview: {
+      allowedHosts: true,
+    },
     test: {
       environment: 'jsdom',
       globals: true,
