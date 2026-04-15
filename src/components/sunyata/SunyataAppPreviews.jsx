@@ -80,11 +80,8 @@ function SunyataAppPreviews({ showcase }) {
           {reserveOpen ? (
             <div className="app-previews-reserve" data-testid="app-previews-reserve">
               <div className="app-previews-reserve-copy">
-                <p>Reserve Your Invite</p>
-                <span>
-                  Leave your email and we will send the current app access path to
-                  your inbox.
-                </span>
+                <p>{showcase.reserveHeading ?? 'Reserve Your Invite'}</p>
+                <span>{showcase.reserveNote ?? 'Leave your email and we will send the current app access path to your inbox.'}</span>
               </div>
 
               <div className="app-previews-reserve-panel">
@@ -103,11 +100,11 @@ function SunyataAppPreviews({ showcase }) {
                       id="app-preview-email"
                       type="email"
                       value={email}
-                      placeholder="Enter your email"
+                      placeholder={showcase.reserveEmailPlaceholder ?? 'Enter your email'}
                       onChange={(event) => setEmail(event.target.value)}
                     />
                     <button type="submit" disabled={submitState === 'submitting'}>
-                      {submitState === 'submitting' ? 'Saving' : 'Submit'}
+                      {submitState === 'submitting' ? 'Saving' : (showcase.reserveSubmitLabel ?? 'Submit')}
                     </button>
                   </form>
                 )}

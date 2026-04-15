@@ -1621,6 +1621,7 @@ a {
 }
 
 .app-previews-reserve-form input,
+.app-previews-reserve-form button,
 .app-previews-reserve-confirmed {
   min-height: 60px;
   border-radius: 999px;

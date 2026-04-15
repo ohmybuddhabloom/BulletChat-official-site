@@ -542,6 +542,13 @@ function SunyataEditor({
             <TextField label="主按钮文案" value={scene.appShowcase.primaryActionLabel} onChange={(value) => updateAppShowcase('primaryActionLabel', value)} />
             <TextField label="次按钮文案" value={scene.appShowcase.secondaryActionLabel} onChange={(value) => updateAppShowcase('secondaryActionLabel', value)} />
             <TextField label="社群文案" value={scene.appShowcase.proofText} onChange={(value) => updateAppShowcase('proofText', value)} />
+            <div className="editor-subgroup">
+              <h3>预约邀请区块</h3>
+              <TextField label="标题" value={scene.appShowcase.reserveHeading ?? 'Reserve Your Invite'} onChange={(value) => updateAppShowcase('reserveHeading', value)} />
+              <TextField label="说明文字" value={scene.appShowcase.reserveNote ?? ''} multiline onChange={(value) => updateAppShowcase('reserveNote', value)} />
+              <TextField label="邮箱占位符" value={scene.appShowcase.reserveEmailPlaceholder ?? 'Enter your email'} onChange={(value) => updateAppShowcase('reserveEmailPlaceholder', value)} />
+              <TextField label="提交按钮文案" value={scene.appShowcase.reserveSubmitLabel ?? 'Submit'} onChange={(value) => updateAppShowcase('reserveSubmitLabel', value)} />
+            </div>
             {scene.appShowcase.phones.map((phone, index) => (
               <div className="editor-subgroup" key={`${phone.key}-${index}`}>
                 <h3>{`手机 ${index + 1}`}</h3>

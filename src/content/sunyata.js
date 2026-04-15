@@ -238,6 +238,10 @@ export const defaultScene = {
       'Reconnect with your inner stillness. Foshuo translates ritual, wisdom, and ceremonial calm into a digital experience that feels weighted, luminous, and memorable.',
     primaryActionLabel: 'Download Now',
     secondaryActionLabel: 'Watch the Story',
+    reserveHeading: 'Reserve Your Invite',
+    reserveNote: 'Leave your email and we will send the current app access path to your inbox.',
+    reserveEmailPlaceholder: 'Enter your email',
+    reserveSubmitLabel: 'Submit',
     proofText: 'Joined by 12,000+ seekers worldwide',
     proofAvatars: [
       {
